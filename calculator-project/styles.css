@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  height: 100vh;
+  place-items: center;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  border: 1px solid black;
+  border-radius: 18px;
+  aspect-ratio: 1/1.75;
+  padding: 25px;
+  gap: 20px;
+}
+
+.screen {
+  height: 30%;
+  width: 100%;
+  border: 1px solid black;
+  position: relative;
+  text-align: right;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 10px;
+}
+
+.currentEquation {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 3.5rem;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 40%;
+  width: 100%;
+  font-size: 1.25rem;
+}
+
+.btnContainer {
+  height: 70%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-row-gap: 15px;
+  grid-column-gap: 15px;
+  grid-template-areas: "a b b", "b b b b", "b b b b", "b b b b", "b b c";
+}
+
+.clear {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  text-transform: uppercase;
+}
+
+.equals {
+  grid-column-start: 3;
+  grid-column-end: 5;
+}

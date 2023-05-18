@@ -63,7 +63,7 @@ grid.addEventListener("click", (e) => {
     `background-color: ${pencilActive ? "green" : "red"}`
   );
 });
-grid.addEventListener("mouseleave", (e) => {
+board.addEventListener("mouseleave", (e) => {
   pencilActive = false;
   pencilStatus.setAttribute("style", `background-color: red`);
 });
@@ -133,7 +133,6 @@ clearAllBtn.classList.add("clear", "btn");
 clearAllBtn.innerText = "clear";
 clearAllBtn.addEventListener("click", () => {
   pencilActive = false;
-  pencilStatus.setAttribute("style", `background-color: red`);
   const squares = document.querySelectorAll(".square");
   [...squares].forEach((square) =>
     square.setAttribute("style", `background-color: ${gridBackground};`)
@@ -150,10 +149,6 @@ initialColorBtn.addEventListener("click", () => {
       pencilActive &&
         e.target.setAttribute("style", `background-color: ${initialColor}`);
     })
-  );
-  pencilStatus.setAttribute(
-    "style",
-    `background-color: ${pencilActive ? "green" : "red"}`
   );
 });
 

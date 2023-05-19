@@ -1,18 +1,19 @@
 /*============== global variables ==============*/
 
-let result = "";
-const currentEquation = { num1: "", operator: "", num2: "" };
+const currentEquation = { num1: "", operator: "", num2: "", result: "" };
+let activeEquation = false;
+let numberToggled = false;
 
 /*============== buttons text and class name ==============*/
 
 const buttons = [
   { clear: "ac" },
-  { modifier: "+/-" },
-  { operator: "/" },
+  { negative: "+/-" },
+  { operator: "÷" },
   7,
   8,
   9,
-  { operator: "*" },
+  { operator: "x" },
   4,
   5,
   6,
@@ -22,7 +23,7 @@ const buttons = [
   3,
   { operator: "+" },
   0,
-  { modifier: "." },
+  { decimal: "." },
   { equals: "=" },
 ];
 
@@ -48,21 +49,13 @@ screen.append(currentDisplay);
 screen.append(resultDisplay);
 
 const displayNumbers = () => {
-  currentDisplay.innerText =
-    currentEquation.operator == false
-      ? Object.values(currentEquation).join("")
-      : currentEquation.num2;
-
-  resultDisplay.innerText =
-    currentEquation.operator == false
-      ? ""
-      : Object.values(currentEquation).slice(0, 2).join(" ");
+  const { num1, num2, operator } = currentEquation;
+  currentDisplay.innerText = Number(num1);
+  resultDisplay.innerText = num2 == 0 ? "" : Number(num2) + " " + operator;
 };
 
-const pushNumber = (number) => {};
-
-const displayOperator = (operator) => {
-  currentEquation.operator = operator;
+const pushNumber = (number) => {
+  currentEquation.num1 += number;
   displayNumbers();
 };
 
@@ -70,10 +63,10 @@ const clearScreen = () => {
   currentEquation.num1 = "";
   currentEquation.operator = "";
   currentEquation.num2 = "";
-  result = "";
 
-  currentDisplay.innerText = 0;
+  currentDisplay.innerText = "0";
   resultDisplay.innerText = "";
+  activeEquation = false;
 };
 
 /*============== buttons ==============*/
@@ -94,19 +87,98 @@ buttons.forEach((button) => {
 const clearBtn = document.querySelector(".clear");
 clearBtn.addEventListener("click", (e) => {
   clearScreen();
+  activeEquation = false;
 });
 
 const numbersBtns = document.querySelectorAll(".number");
 [...numbersBtns].forEach((btn) => {
   btn.addEventListener("click", (e) => {
+    const { num1 } = currentEquation;
+    if (activeEquation && numberToggled === false) {
+      numberToggled = true;
+      currentEquation.num2 = num1;
+      currentEquation.num1 = "";
+    }
     pushNumber(e.target.innerText);
   });
 });
 
+function getResult() {
+  const { num1, num2, operator } = currentEquation;
+  switch (operator) {
+    case "+":
+      currentEquation.num1 = String(Number(num2) + Number(num1));
+      currentEquation.num2 = "";
+      currentEquation.operator = "";
+      break;
+    case "-":
+      currentEquation.num1 = String(Number(num2) - Number(num1));
+      currentEquation.num2 = "";
+      currentEquation.operator = "";
+      break;
+    case "x":
+      currentEquation.num1 = String(Number(num2) * Number(num1));
+      currentEquation.num2 = "";
+      currentEquation.operator = "";
+      break;
+    case "÷":
+      currentEquation.num1 = String(Number(num2) / Number(num1));
+      currentEquation.num2 = "";
+      currentEquation.operator = "";
+      break;
+    default:
+      undefined;
+  }
+  console.log("ran it");
+  activeEquation = true;
+  numberToggled = false;
+  displayNumbers();
+}
+
+const equalsBtn = document.querySelector(".equals");
+equalsBtn.addEventListener("click", getResult);
+
 const operatorBtns = document.querySelectorAll(".operator");
 [...operatorBtns].forEach((btn) => {
   btn.addEventListener("click", (e) => {
-    currentEquation.operator = btn.innerText;
-    displayOperator(btn.innerText);
+    currentEquation.operator = e.target.innerText;
+    const { num1, num2, operator } = currentEquation;
+    if (num2 === "") {
+      currentEquation.operator = operator;
+      currentEquation.num2 = num1;
+      currentEquation.num1 = "";
+      displayNumbers();
+    } else if (num2 !== "" && activeEquation === true) {
+      getResult();
+    }
   });
+});
+
+/*============== modifiers ==============*/
+
+const negativePositiveBtn = document.querySelector(".negative");
+negativePositiveBtn.addEventListener("click", () => {
+  const { num1 } = currentEquation;
+  if (num1 == 0) {
+    return;
+  } else if (num1.indexOf("-") === -1) {
+    currentEquation.num1 = "-" + num1;
+  } else if (num1.indexOf("-") !== -1) {
+    currentEquation.num1 = num1.slice(1);
+  }
+
+  displayNumbers();
+});
+
+const decimalBtn = document.querySelector(".decimal");
+decimalBtn.addEventListener("click", () => {
+  const { num1 } = currentEquation;
+  console.log(num1);
+  console.log(typeof num1);
+  if (num1 === "" || num1 === 0) {
+    currentEquation.num1 += "0.";
+  } else if (num1.indexOf(".") === -1) {
+    currentEquation.num1 += ".";
+    return displayNumbers();
+  }
 });

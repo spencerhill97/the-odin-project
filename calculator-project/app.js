@@ -85,7 +85,7 @@ buttons.forEach((button) => {
 });
 
 const clearBtn = document.querySelector(".clear");
-clearBtn.addEventListener("click", (e) => {
+clearBtn.addEventListener("click", () => {
   clearScreen();
   activeEquation = false;
 });
@@ -93,8 +93,8 @@ clearBtn.addEventListener("click", (e) => {
 const numbersBtns = document.querySelectorAll(".number");
 [...numbersBtns].forEach((btn) => {
   btn.addEventListener("click", (e) => {
-    const { num1 } = currentEquation;
-    if (activeEquation && numberToggled === false) {
+    const { num1, operator } = currentEquation;
+    if (activeEquation && numberToggled === false && operator === "") {
       numberToggled = true;
       currentEquation.num2 = num1;
       currentEquation.num1 = "";
@@ -129,7 +129,6 @@ function getResult() {
     default:
       undefined;
   }
-  console.log("ran it");
   activeEquation = true;
   numberToggled = false;
   displayNumbers();
@@ -173,8 +172,6 @@ negativePositiveBtn.addEventListener("click", () => {
 const decimalBtn = document.querySelector(".decimal");
 decimalBtn.addEventListener("click", () => {
   const { num1 } = currentEquation;
-  console.log(num1);
-  console.log(typeof num1);
   if (num1 === "" || num1 === 0) {
     currentEquation.num1 += "0.";
   } else if (num1.indexOf(".") === -1) {

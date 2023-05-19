@@ -4,10 +4,17 @@
   margin: 0;
 }
 
+:root {
+  --calculator-body: #e5e4e2;
+  --calculator-border: #d6d5d3;
+  --primary-btn: #232b2b;
+}
+
 body {
   display: grid;
   height: 100vh;
   place-items: center;
+  font-family: "Lato", sans-serif;
 }
 
 .calculator {
@@ -21,6 +28,11 @@ body {
   aspect-ratio: 1/1.75;
   padding: 25px;
   gap: 20px;
+  background-color: var(--calculator-body);
+  border: 1px solid var(--calculator-border);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .screen {
@@ -32,6 +44,9 @@ body {
   display: flex;
   flex-direction: column-reverse;
   padding: 10px;
+  font-family: "Iceberg", Arial, sans-serif;
+  background-color: #b6b6b4;
+  border: 1px solid #a3a3a1;
 }
 
 .currentEquation {
@@ -63,13 +78,38 @@ body {
   grid-template-areas: "a b b", "b b b b", "b b b b", "b b b b", "b b c";
 }
 
-.clear {
+.clear.btn {
   grid-column-start: 1;
   grid-column-end: 3;
   text-transform: uppercase;
+  background-color: goldenrod;
+  border: none;
+  color: var(--primary-btn);
 }
 
-.equals {
+.equals.btn {
   grid-column-start: 3;
   grid-column-end: 5;
+}
+
+.number.btn,
+.decimal.btn {
+  background-color: var(--primary-btn);
+  border: 1px solid #2f3838;
+}
+
+.negative,
+.operator,
+.equals {
+  background-color: #7393b3;
+  border: #6082b6;
+}
+
+.btn {
+  border-radius: 4px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.5rem;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }

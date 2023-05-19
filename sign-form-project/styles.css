@@ -1,0 +1,197 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --system-fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+}
+
+body {
+  font-family: "Lato", var(--system-fonts);
+}
+
+.signup-form {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  height: 100vh;
+  width: 40%;
+  background: url("./basketball.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Righteous", var(--system-fonts);
+  font-size: clamp(3rem, 5vw, 4rem);
+  color: white;
+  position: relative;
+  width: 100%;
+  top: 20%;
+  background: rgba(0, 0, 0, 0.5);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  letter-spacing: 0.15rem;
+}
+
+i.fa-basketball {
+  color: orange;
+  font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+}
+
+.form {
+  height: 100vh;
+  width: 60%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.signup-description {
+  width: 80%;
+}
+
+.signup-description > p {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  letter-spacing: 0.03rem;
+}
+
+form {
+  width: 80%;
+}
+
+fieldset {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 30px;
+  border: none;
+}
+
+legend {
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.input-div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+label {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: lighter;
+  letter-spacing: 0.1rem;
+  margin-left: 10px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid lightgray;
+}
+
+input:focus {
+  outline: 1px solid rgb(255, 106, 7);
+}
+
+input:focus {
+  border: 1px solid rgb(255, 106, 7);
+}
+
+button {
+  width: 150px;
+  padding: 10px 5px;
+  border-radius: 4px;
+  margin-top: 50px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background-color: #48494b;
+  border: 1px solid #2e2f30;
+  color: white;
+  transition: all 100ms;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+button:hover {
+  background-color: rgb(255, 106, 7);
+  border: 1px solid rgb(255, 121, 32);
+  color: #222021;
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+p {
+  margin-top: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(255, 115, 0);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 900px) {
+  .signup-form {
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+
+  .sidebar {
+    min-height: 100%;
+    width: 100%;
+  }
+
+  .form {
+    height: 100%;
+    width: 100%;
+    margin: 25px auto 50px auto;
+  }
+
+  .sidebar {
+    display: grid;
+    place-items: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  fieldset {
+    display: block;
+  }
+
+  label {
+    margin-bottom: 2.5px;
+    margin-top: 10px;
+  }
+
+  h1 {
+    position: static;
+    top: auto;
+  }
+}

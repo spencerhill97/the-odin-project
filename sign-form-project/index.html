@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/1ca06ab280.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&family=Righteous&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./app.js" defer></script>
+    <link rel="stylesheet" href="./styles.css" />
+    <title>sign up form</title>
+  </head>
+  <body>
+    <section class="signup-form">
+      <article class="sidebar">
+        <h1>
+          H<i class="fa-solid fa-basketball fa-bounce"></i
+          ><i class="fa-solid fa-basketball fa-bounce"></i>p Buddy
+        </h1>
+      </article>
+      <article class="form">
+        <div class="signup-description">
+          <p>
+            This is not a real online service! You know you need something like
+            this in your life to help you realize your hoop dreams! Sign up
+            <em>now</em> to start meeting hooper friends and finding runs!
+          </p>
+        </div>
+        <form id="signUp" action="signUp">
+          <fieldset>
+            <legend>Sign up information:</legend>
+            <div class="input-div">
+              <label for="first-name">first name</label>
+              <input id="first-name" name="first-name" type="text" required />
+            </div>
+            <div class="input-div">
+              <label for="last-name">last name</label>
+              <input id="last-name" required type="text" />
+            </div>
+            <div class="input-div">
+              <label for="email">email</label>
+              <input id="email" required type="email" />
+            </div>
+            <div class="input-div">
+              <label for="phone-number">phone number</label>
+              <input id="phone-number" required type="tel" />
+            </div>
+            <div class="input-div">
+              <label for="password">password</label>
+              <input id="password" class="password" required type="password" />
+            </div>
+            <div class="input-div">
+              <label for="confirm-password">confirm password</label>
+              <input
+                id="confirm-password"
+                class="password"
+                required
+                type="password"
+              />
+            </div>
+          </fieldset>
+          <button type="button">sign up</button>
+          <p>
+            Already have an account?
+            <a href="/" style="margin-left: 5px">Log in</a>
+          </p>
+        </form>
+      </article>
+    </section>
+  </body>
+</html>

@@ -36,26 +36,67 @@
         </div>
         <form id="signUp" action="signUp">
           <fieldset>
-            <legend>Sign up information:</legend>
             <div class="input-div">
               <label for="first-name">first name</label>
-              <input id="first-name" name="first-name" type="text" required />
+              <input
+                id="first-name"
+                name="first-name"
+                type="text"
+                pattern="^[a-zA-Z]+$"
+                required
+              />
+              <p class="alert hidden">
+                *Invalid input. Must only contain letters
+              </p>
             </div>
             <div class="input-div">
               <label for="last-name">last name</label>
-              <input id="last-name" required type="text" />
+              <input
+                id="last-name"
+                name="last-name"
+                type="text"
+                pattern="^[a-zA-Z]+$"
+                required
+              />
+              <p class="alert hidden">
+                *Invalid input. Must only contain letters
+              </p>
             </div>
             <div class="input-div">
               <label for="email">email</label>
-              <input id="email" required type="email" />
+              <input
+                id="email"
+                type="email"
+                pattern=".+@[a-z]+\.[a-z]+"
+                required
+              />
+              <p class="alert hidden">*Invalid input. "emailname@domain.com"</p>
             </div>
             <div class="input-div">
               <label for="phone-number">phone number</label>
-              <input id="phone-number" required type="tel" />
+              <input
+                id="phone-number"
+                pattern="\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}"
+                type="tel"
+                required
+              />
+              <p class="alert hidden">*Invalid input. Must contain 10 digits</p>
             </div>
             <div class="input-div">
               <label for="password">password</label>
-              <input id="password" class="password" required type="password" />
+              <input
+                id="password"
+                class="password"
+                required
+                type="password"
+                minlength="8"
+                maxlength="16"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$"
+              />
+              <p class="alert hidden">
+                *Invalid input. Must contain 8-16 characters, one uppercase, one
+                number, and one special character.
+              </p>
             </div>
             <div class="input-div">
               <label for="confirm-password">confirm password</label>
@@ -64,10 +105,14 @@
                 class="password"
                 required
                 type="password"
+                minlength="8"
+                maxlength="16"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
               />
+              <p class="alert hidden">*Passwords must match</p>
             </div>
           </fieldset>
-          <button type="button">sign up</button>
+          <button class="btn" type="button">sign up</button>
           <p>
             Already have an account?
             <a href="/" style="margin-left: 5px">Log in</a>

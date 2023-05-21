@@ -15,7 +15,7 @@ body {
 }
 
 .signup-form {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -56,17 +56,19 @@ i.fa-basketball {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 50px;
+  gap: 30px;
 }
 
 .signup-description {
   width: 80%;
+  height: min-content;
 }
 
 .signup-description > p {
   font-size: 1.25rem;
   line-height: 1.5rem;
   letter-spacing: 0.03rem;
+  height: min-content;
 }
 
 form {
@@ -78,20 +80,14 @@ fieldset {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 30px;
+  row-gap: 5px;
+  column-gap: 20px;
   border: none;
-}
-
-legend {
-  margin-bottom: 20px;
-  font-size: 1.25rem;
-  font-weight: 700;
 }
 
 .input-div {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
 label {
@@ -100,6 +96,17 @@ label {
   font-weight: lighter;
   letter-spacing: 0.1rem;
   margin-left: 10px;
+  margin-bottom: 5px;
+}
+
+.alert {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 input {
@@ -108,18 +115,29 @@ input {
 }
 
 input:focus {
-  outline: 1px solid rgb(255, 106, 7);
+  outline: 2px solid black;
+  border: none;
 }
 
-input:focus {
-  border: 1px solid rgb(255, 106, 7);
+.invalid {
+  border: 1px solid red;
 }
 
-button {
+.invalid:focus {
+  outline: 2px solid red;
+  border: none;
+}
+
+.valid:focus {
+  outline: 2px solid darkgreen;
+  border: none;
+}
+
+.btn {
   width: 150px;
   padding: 10px 5px;
   border-radius: 4px;
-  margin-top: 50px;
+  margin-top: 30px;
   font-size: 1.05rem;
   font-weight: 700;
   background-color: #48494b;
@@ -129,13 +147,13 @@ button {
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
-button:hover {
+.btn:hover {
   background-color: rgb(255, 106, 7);
   border: 1px solid rgb(255, 121, 32);
   color: #222021;
 }
 
-button:active {
+.btn:active {
   transform: translateY(2px);
 }
 

@@ -1,0 +1,266 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --header-bg: #f8fafc;
+  --projects-bg: #f1f5f9;
+  --primary-color: #0ea5e9;
+  --secondary-color: #fbbf24;
+}
+
+body {
+  font-family: "Open Sans";
+}
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  display: grid;
+  grid-template: 1fr 4fr / 250px 4fr;
+  grid-template-areas: "sidebar header" "sidebar projects";
+}
+
+section.header {
+  grid-area: header;
+  display: grid;
+  grid-template: 0.5fr 1fr / 2fr 1fr;
+  align-items: center;
+  background-color: var(--header-bg);
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-top: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  z-index: 1;
+}
+
+.search-div {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar {
+  width: 100%;
+}
+
+.search-bar input {
+  width: 80%;
+  background-color: var(--projects-bg);
+  border: none;
+  border-radius: 10px;
+  padding: 7.5px 15px;
+}
+
+.header .user-menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  align-items: center;
+  height: 100%;
+}
+
+.user-menu i {
+  font-size: 1.2rem;
+}
+
+.user-menu img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.user-menu p {
+  font-weight: 700;
+}
+
+.header .display-user {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-weight: 700;
+}
+
+.display-user div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.8rem;
+}
+
+.name.username {
+  font-size: 1.2rem;
+}
+
+.header .display-user img {
+  border-radius: 50%;
+  width: 75px;
+}
+
+.header .btn-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.btn-container .btn {
+  background-color: var(--primary-color);
+  color: white;
+  text-transform: capitalize;
+  width: 75px;
+  padding: 10px 10px;
+  border-radius: 25px;
+  border: none;
+  font-weight: 700;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  z-index: 2;
+}
+
+.sidebar {
+  background-color: var(--primary-color);
+  color: white;
+  padding-left: 20px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo i {
+  font-size: 2rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.item .link {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 0.02rem;
+}
+
+.projects {
+  grid-area: projects;
+  background-color: var(--projects-bg);
+  display: grid;
+  grid-template-columns: 3fr minmax(300px, 1fr);
+  grid-template-areas: "projects-list" "announcements trending";
+  gap: 20px;
+  padding: 20px;
+}
+
+.projects-list .list-wrapper {
+  grid-area: projects-list;
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.projects-list h2 {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  padding-bottom: 15px;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background-color: white;
+}
+
+.project.card {
+  border-left: 10px solid var(--secondary-color);
+  padding: 25px;
+  height: 100%;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 1fr);
+}
+
+.project.card .links {
+  display: flex;
+  gap: 25px;
+  font-size: 1.25rem;
+  justify-self: end;
+  padding-top: 10px;
+}
+
+a {
+  color: black;
+}
+
+.announcements-trending-wrapper {
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.announcements {
+  grid-area: announcements;
+  display: grid;
+  grid-template-rows: repeat(auto-fit, 1fr);
+  gap: 15px;
+}
+
+ul.card {
+  list-style: none;
+  padding: 25px;
+  display: grid;
+  grid-template-rows: repeat(auto-fit, 1fr);
+  gap: 15px;
+}
+
+ul.card li p {
+  font-weight: 300;
+  font-size: 0.8rem;
+}
+
+.trending {
+  padding-top: 20px;
+  grid-area: trending;
+}
+
+.trending h2 {
+  padding-bottom: 10px;
+}
+
+.trending .card {
+  display: grid;
+  grid-template-rows: repeat(auto-fit, 1fr);
+  gap: 15px;
+  padding: 25px;
+}
+
+.trending .user {
+  display: flex;
+  gap: 15px;
+}
+
+.trending .user .avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}

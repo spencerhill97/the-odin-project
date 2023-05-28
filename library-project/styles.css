@@ -199,6 +199,7 @@ h1 {
 
 /*============== form ==============*/
 .form-overlay {
+  position: fixed;
   height: 100vh;
   width: 100%;
   display: flex;
@@ -207,7 +208,6 @@ h1 {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   background: rgba(0, 0, 0, 0.3);
-  position: absolute;
   top: 0;
   left: 0;
 }
@@ -216,19 +216,16 @@ h1 {
   display: none;
 }
 
-form {
-  width: clamp(300px, 80%, 400px);
-}
-
 fieldset {
-  width: 100%;
+  width: clamp(300px, 80%, 400px);
+  max-height: 400px;
   background-color: var(--primary-100);
   border: 1px solid black;
   border-radius: 4px;
   padding: 25px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 5px;
 }
 
 legend {
@@ -236,7 +233,7 @@ legend {
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.02rem;
-  padding: 15px 15px;
+  padding: 10px 15px;
   border-radius: 10px;
   background-color: var(--primary-700);
   color: white;
@@ -251,12 +248,12 @@ legend {
 label {
   padding-left: 10px;
   text-transform: capitalize;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: #333333;
 }
 
 input {
-  padding: 15px;
+  padding: 10px;
   border-radius: 4px;
   border: 1px solid gray;
   font-family: "Lato", sans-serif;
@@ -268,9 +265,9 @@ input:focus {
 
 .checkbox-directions {
   text-align: center;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   letter-spacing: 0.02rem;
-  margin-top: 10px;
+  margin-top: 5px;
   color: #333333;
 }
 
@@ -340,7 +337,6 @@ label[for="yes"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
   padding: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -390,36 +386,68 @@ label[for="yes"] {
 }
 
 .slider {
-  width: 150px;
-  height: 50px;
+  position: relative;
+  width: 100px;
+  height: 30px;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   align-items: center;
-  background-color: green;
   border-radius: 10px;
-  padding: 5px;
   overflow: hidden;
-  margin-top: 15px;
 }
 
 .slider-btn {
+  position: absolute;
+  top: 0;
+  transition: left 75ms linear;
+  left: 0;
   overflow: hidden;
   width: 50%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 10px 0 0 10px;
   background-color: lightsteelblue;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   cursor: pointer;
 }
 
-.slider.false {
-  flex-direction: row-reverse;
+.incomplete {
   background: red;
 }
 
-.text {
-  text-align: center;
+.complete {
+  background-color: green;
+}
+
+.complete,
+.incomplete {
+  display: grid;
+  height: 100%;
   width: 50%;
+  place-items: center;
   color: white;
+}
+
+.slider-btn.false {
+  left: 50%;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.heading,
+.author,
+.pages {
+  cursor: pointer;
+  padding: 7.5px;
+  margin-bottom: 5px;
+}
+
+.heading:focus,
+.author:focus,
+.pages:focus {
+  cursor: auto;
+}
+
+.question {
+  margin-top: 7.5px;
+  margin-bottom: 10px;
 }

@@ -9,6 +9,10 @@ function Book(title, author, pages, finished) {
     myLibrary = myLibrary.filter((book) => book.title !== this.title);
     displayBooks();
   };
+  this.toggleRead = function () {
+    this.finished = !this.finished;
+    displayBooks();
+  };
 }
 
 const harry = new Book(
@@ -47,37 +51,48 @@ function displayBooks() {
 
   myLibrary.forEach((book) => {
     const heading = document.createElement("h2");
+    heading.contentEditable = true;
     heading.classList.add("heading");
-    heading.innerText = `${book.title}`;
+    heading.innerText = `"${book.title}"`;
 
     const author = document.createElement("p");
+    author.contentEditable = true;
     author.classList.add("author");
     author.innerText = `${book.author}`;
 
     const pages = document.createElement("p");
+    pages.contentEditable = true;
     pages.classList.add("pages");
     pages.innerText = `${book.pages} pages`;
 
     const completed = document.createElement("div");
     completed.classList.add("slider");
 
-    const toggleSlider = document.createElement("span");
-    toggleSlider.classList.add("slider-btn");
-    completed.append(toggleSlider);
+    const question = document.createElement("p");
+    question.classList.add("question");
+    question.innerText = "Finished?";
 
-    const read = document.createElement("p");
-    read.classList.add("text");
-    read.innerText = "read";
-    completed.append(read);
+    const sliderBtn = document.createElement("span");
+    sliderBtn.classList.add("slider-btn");
+    completed.append(sliderBtn);
 
-    if (book.finished) {
-      read.classList.toggle("false");
-      read.innerText = "unread";
-      completed.classList.toggle("false");
+    if (book.finished === false) {
+      sliderBtn.classList.toggle("false");
     }
 
-    toggleSlider.addEventListener("click", () => {
-      completed.classList.toggle("false");
+    const read = document.createElement("p");
+    read.classList.add("complete");
+    read.innerHTML = `<i class="fa-solid fa-check"></i>`;
+    completed.append(read);
+
+    const unread = document.createElement("p");
+    unread.classList.add("incomplete");
+    unread.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+    completed.append(unread);
+
+    sliderBtn.addEventListener("click", () => {
+      sliderBtn.classList.toggle("false");
+      book.toggleRead();
     });
 
     const removeBtn = document.createElement("button");
@@ -88,21 +103,16 @@ function displayBooks() {
       book.remove();
     });
 
-    const editBtn = document.createElement("button");
-    editBtn.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
-    editBtn.classList.add("edit-btn");
-    editBtn.setAttribute("type", "button");
-
     const btnDiv = document.createElement("div");
     btnDiv.classList.add("btn-div");
     btnDiv.append(removeBtn);
-    btnDiv.append(editBtn);
 
     const newBook = document.createElement("article");
     newBook.classList.add("book-card");
     newBook.append(heading);
     newBook.append(author);
     newBook.append(pages);
+    newBook.append(question);
     newBook.append(completed);
     newBook.append(btnDiv);
 

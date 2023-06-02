@@ -3,7 +3,7 @@ const gameController = (() => {
   const _squares = document.querySelectorAll(".square");
   let _gameOver = false;
   let _result = undefined;
-  let _turn = true;
+  let _turn = 0;
   const _WINNING_COMBOS = [
     //horizontal combos
     [0, 1, 2],
@@ -24,9 +24,15 @@ const gameController = (() => {
       square.innerText = "";
       square.classList.remove("user", "ai");
     });
+
+    _gameOver = false;
+    _turn = 0;
+    _result = undefined;
   };
 
-  document.querySelector(".reset").addEventListener("click", () => {
+  // event listener to restart the game;
+  document.querySelector(".play-again").addEventListener("click", () => {
+    document.querySelector(".modal").classList.toggle("hidden");
     reset();
   });
 
@@ -37,47 +43,57 @@ const gameController = (() => {
       square.innerText = player.sign;
       square.classList.add("user");
       _board[index] = player.sign;
-      checkWinner();
       _turn++;
+      checkWinner();
       aiLogic();
     });
   });
 
   const aiLogic = function () {
     let nextMove;
+    if (_gameOver) return;
 
     for (let index = 0; index < _WINNING_COMBOS.length; index++) {
       const combo = _WINNING_COMBOS[index].map((element) => {
         return _board[element] ? _board[element] : element;
       });
-      const checkmate = combo.filter((value) => value === ai.sign).length >= 2;
-      const defensive =
-        combo.filter((value) => value === player.sign).length >= 2;
+      const filled = combo.filter((value) => Number(value)).length === 0;
 
-      if (checkmate) {
-        nextMove = combo.filter((value) => value !== ai.sign);
-        _squares[nextMove].innerText = ai.sign;
-        _board[nextMove] = ai.sign;
-        _squares[nextMove].classList.add("ai");
+      // checking for filled square or any optimal moves
+      if (filled) {
+        continue;
+      } else if (ai.checkmate(combo)) {
+        nextMove = ai.checkmate(combo);
         break;
-      } else if (defensive) {
-        console.log("defense");
-        nextMove = combo.filter((value) => value !== player.sign);
-        console.log(_squares[nextMove]);
-        _squares[nextMove].innerText = ai.sign;
-        _board[nextMove] = ai.sign;
-        _squares[nextMove].classList.add("ai");
+      } else if (ai.playDefense(combo, player.sign)) {
+        nextMove = ai.playDefense(combo, player.sign);
       }
     }
 
-    // if (_board[4] === "") {
-    //   _squares[4].innerText = ai.sign;
-    //   _board[4] = ai.sign;
-    //   _squares[4].classList.add("ai");
-    //   _turn++;
-    //   checkWinner();
-    //   return;
-    // }
+    if (!nextMove && !_board[4]) {
+      nextMove = 4;
+    } else if (!nextMove) {
+      nextMove = ai.randomSquare(_board);
+    }
+
+    _board[nextMove] = ai.sign;
+    _squares[nextMove].innerText = ai.sign;
+    _squares[nextMove].classList.add("ai");
+    _turn++;
+    checkWinner();
+  };
+
+  const displayWinner = () => {
+    const display = document.querySelector(".display-winner");
+    console.log(display);
+    if (_result === "tie") {
+      display.innerText = "The game ended in a tie!";
+    } else {
+      display.innerText =
+        _result.name.split("")[0].toUpperCase() +
+        _result.name.split("").slice(1).join("") +
+        " won the game!";
+    }
   };
 
   const checkWinner = function () {
@@ -96,9 +112,14 @@ const gameController = (() => {
       }
     }
 
-    if (_gameOver === undefined && _turn >= 9) {
+    if (_turn >= 9) {
       _result = "tie";
       _gameOver = true;
+    }
+
+    if (_gameOver) {
+      document.querySelector(".modal").classList.toggle("hidden");
+      displayWinner();
     }
   };
 
@@ -106,8 +127,30 @@ const gameController = (() => {
 })();
 
 const addPlayer = function (name, sign) {
-  return { name, sign };
+  const checkmate = function (array) {
+    const result = array.filter((value) => value === sign).length >= 2;
+    return result && array.filter((value) => value !== sign)[0];
+  };
+
+  const playDefense = function (array, opponent) {
+    const result = array.filter((value) => value === opponent).length >= 2;
+    return result && array.filter((value) => value !== opponent)[0];
+  };
+
+  const randomSquare = function (array) {
+    let result;
+    for (let index = 0; index < array.length; index++) {
+      if (!array[index]) {
+        result = index;
+        break;
+      }
+    }
+
+    return result;
+  };
+
+  return { name, sign, checkmate, playDefense, randomSquare };
 };
 
-const player = addPlayer("player", "X");
-const ai = addPlayer("ai bot", "O");
+const player = addPlayer("player one", "X");
+const ai = addPlayer("player two", "O");

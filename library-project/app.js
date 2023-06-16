@@ -1,19 +1,19 @@
 let myLibrary = [];
 
-function Book(title, author, pages, finished) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.finished = finished;
-  this.remove = function () {
-    myLibrary = myLibrary.filter((book) => book.title !== this.title);
-    displayBooks();
-  };
-  this.toggleRead = function () {
-    this.finished = !this.finished;
-    displayBooks();
-  };
-}
+// function Book(title, author, pages, finished) {
+//   this.title = title;
+//   this.author = author;
+//   this.pages = pages;
+//   this.finished = finished;
+//   this.remove = function () {
+//     myLibrary = myLibrary.filter((book) => book.title !== this.title);
+//     displayBooks();
+//   };
+//   this.toggleRead = function () {
+//     this.finished = !this.finished;
+//     displayBooks();
+//   };
+// }
 
 const harry = new Book(
   "harry potter and the chamber of secrets",
@@ -28,23 +28,23 @@ const office = new Book("somehow i manage", "michael scott", 555, true);
 
 myLibrary.push(harry, holes, goosebumps, captain, office);
 
-const main = document.createElement("main");
-document.body.append(main);
+// const main = document.createElement("main");
+// document.body.append(main);
 
 /*============== header ==============*/
-const header = document.createElement("header");
-header.classList.add("header");
-main.append(header);
+// const header = document.createElement("header");
+// header.classList.add("header");
+// main.append(header);
 
-const title = document.createElement("h1");
-title.innerText = "my library";
-header.append(title);
+// const title = document.createElement("h1");
+// title.innerText = "my library";
+// header.append(title);
 
 /*============== book list ==============*/
-const bookList = document.createElement("section");
-bookList.classList.add("book-list");
+// const bookList = document.createElement("section");
+// bookList.classList.add("book-list");
 
-main.append(bookList);
+// main.append(bookList);
 
 function displayBooks() {
   bookList.innerHTML = "";
@@ -123,136 +123,134 @@ function displayBooks() {
 displayBooks();
 
 /*============== form ==============*/
-const formOverlay = document.createElement("section");
-formOverlay.classList.add("form-overlay", "hidden");
-main.append(formOverlay);
+// const formOverlay = document.createElement("section");
+// formOverlay.classList.add("form-overlay", "hidden");
+// main.append(formOverlay);
 
-const bookForm = document.createElement("form");
-bookForm.setAttribute("action", "submitBook");
-bookForm.setAttribute("id", "book-form");
-formOverlay.append(bookForm);
+// const bookForm = document.createElement("form");
+// bookForm.setAttribute("action", "submitBook");
+// bookForm.setAttribute("id", "book-form");
+// formOverlay.append(bookForm);
 
-const bookFieldset = document.createElement("fieldset");
-bookForm.append(bookFieldset);
+// const bookFieldset = document.createElement("fieldset");
+// bookForm.append(bookFieldset);
 
 /*============== add book button ==============*/
-const addBtn = document.createElement("button");
-addBtn.classList.add("add-btn");
-addBtn.innerHTML = `<i class="fa-solid fa-plus"></i> add book`;
-addBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  formOverlay.classList.toggle("hidden");
-});
-header.append(addBtn);
+// const addBtn = document.createElement("button");
+// addBtn.classList.add("add-btn");
+// addBtn.innerHTML = `<i class="fa-solid fa-plus"></i> add book`;
+// addBtn.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   formOverlay.classList.toggle("hidden");
+// });
+// header.append(addBtn);
 
-formOverlay.addEventListener("click", (e) => {
-  if (!bookForm.contains(e.target)) {
-    formOverlay.classList.toggle("hidden");
-    bookForm.reset();
-  }
-});
+// formOverlay.addEventListener("click", (e) => {
+//   if (!bookForm.contains(e.target)) {
+//     formOverlay.classList.toggle("hidden");
+//     bookForm.reset();
+//   }
+// });
 
-const fieldsetLegend = document.createElement("legend");
-fieldsetLegend.innerText = "new book info";
-bookFieldset.append(fieldsetLegend);
+// const fieldsetLegend = document.createElement("legend");
+// fieldsetLegend.innerText = "new book info";
+// bookFieldset.append(fieldsetLegend);
 
 /*============== title input ==============*/
-const titleDiv = document.createElement("div");
-titleDiv.classList.add("input-div");
+// const titleDiv = document.createElement("div");
+// titleDiv.classList.add("input-div");
 
-const titleInput = document.createElement("input");
-const titleLabel = document.createElement("label");
-titleDiv.append(titleLabel);
-titleDiv.append(titleInput);
+// const titleInput = document.createElement("input");
+// const titleLabel = document.createElement("label");
+// titleDiv.append(titleLabel);
+// titleDiv.append(titleInput);
 
-titleInput.setAttribute("type", "text");
-titleInput.setAttribute("id", "title");
-titleInput.required = true;
-titleLabel.innerText = "title";
-titleLabel.setAttribute("for", "title");
+// titleInput.setAttribute("type", "text");
+// titleInput.setAttribute("id", "title");
+// titleInput.required = true;
+// titleLabel.innerText = "title";
+// titleLabel.setAttribute("for", "title");
 
-bookFieldset.append(titleDiv);
+// bookFieldset.append(titleDiv);
 
 /*============== author input ==============*/
-const authorDiv = document.createElement("div");
-authorDiv.classList.add("input-div");
+// const authorDiv = document.createElement("div");
+// authorDiv.classList.add("input-div");
 
-const authorInput = document.createElement("input");
-const authorLabel = document.createElement("label");
-authorDiv.append(authorLabel);
-authorDiv.append(authorInput);
+// const authorInput = document.createElement("input");
+// const authorLabel = document.createElement("label");
+// authorDiv.append(authorLabel);
+// authorDiv.append(authorInput);
 
-authorInput.setAttribute("type", "text");
-authorInput.setAttribute("id", "author");
-authorInput.setAttribute("required", "undefined");
-authorInput.required = true;
-authorLabel.innerText = "author";
-authorLabel.setAttribute("for", "author");
+// authorInput.setAttribute("type", "text");
+// authorInput.setAttribute("id", "author");
+// authorInput.setAttribute("required", "undefined");
+// authorInput.required = true;
+// authorLabel.innerText = "author";
+// authorLabel.setAttribute("for", "author");
 
-bookFieldset.append(authorDiv);
+// bookFieldset.append(authorDiv);
 
 /*============== pages input ==============*/
-const pagesDiv = document.createElement("div");
-pagesDiv.classList.add("input-div");
+// const pagesDiv = document.createElement("div");
+// pagesDiv.classList.add("input-div");
 
-const pagesInput = document.createElement("input");
-const pagesLabel = document.createElement("label");
-pagesDiv.append(pagesLabel);
-pagesDiv.append(pagesInput);
+// const pagesInput = document.createElement("input");
+// const pagesLabel = document.createElement("label");
+// pagesDiv.append(pagesLabel);
+// pagesDiv.append(pagesInput);
 
-pagesInput.setAttribute("type", "number");
-pagesInput.setAttribute("id", "pages");
-pagesInput.setAttribute("min", 0);
-pagesInput.required = true;
-pagesLabel.innerText = "pages";
-pagesLabel.setAttribute("for", "pages");
+// pagesInput.setAttribute("type", "number");
+// pagesInput.setAttribute("id", "pages");
+// pagesInput.setAttribute("min", 0);
+// pagesInput.required = true;
+// pagesLabel.innerText = "pages";
+// pagesLabel.setAttribute("for", "pages");
 
-bookFieldset.append(pagesDiv);
+// bookFieldset.append(pagesDiv);
 
 /*============== checkbox div ==============*/
-const checkboxDirections = document.createElement("p");
-checkboxDirections.classList.add("checkbox-directions", "label");
-checkboxDirections.innerText = "Did you finish reading the book?";
-bookFieldset.append(checkboxDirections);
+// const checkboxDirections = document.createElement("p");
+// checkboxDirections.classList.add("checkbox-directions", "label");
+// checkboxDirections.innerText = "Did you finish reading the book?";
+// bookFieldset.append(checkboxDirections);
 
-const completedDiv = document.createElement("div");
-completedDiv.classList.add("checkbox-div");
-bookFieldset.append(completedDiv);
+// const completedDiv = document.createElement("div");
+// completedDiv.classList.add("checkbox-div");
+// bookFieldset.append(completedDiv);
 
-const completedLabel = document.createElement("label");
-completedLabel.innerText = "yes";
-completedLabel.classList.add("yes-label");
-completedLabel.setAttribute("for", "yes");
+// const completedLabel = document.createElement("label");
+// completedLabel.innerText = "yes";
+// completedLabel.classList.add("yes-label");
+// completedLabel.setAttribute("for", "yes");
 
-const finishedInput = document.createElement("input");
-finishedInput.setAttribute("type", "checkbox");
-finishedInput.setAttribute("value", "yes");
-finishedInput.setAttribute("name", "completed");
-finishedInput.setAttribute("id", "yes");
+// const finishedInput = document.createElement("input");
+// finishedInput.setAttribute("type", "checkbox");
+// finishedInput.setAttribute("value", "yes");
+// finishedInput.setAttribute("name", "completed");
+// finishedInput.setAttribute("id", "yes");
 
-completedDiv.append(completedLabel);
-completedDiv.append(finishedInput);
+// completedDiv.append(completedLabel);
+// completedDiv.append(finishedInput);
 
 /*============== submit btn ==============*/
-const submitBtn = document.createElement("button");
-submitBtn.classList.add("submit-btn");
-submitBtn.setAttribute("type", "submit");
-submitBtn.innerText = "submit";
+// const submitBtn = document.createElement("button");
+// submitBtn.classList.add("submit-btn");
+// submitBtn.setAttribute("type", "submit");
+// submitBtn.innerText = "submit";
 
-bookFieldset.append(submitBtn);
+// bookFieldset.append(submitBtn);
 
-bookForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const title = titleInput.value;
-  const author = authorInput.value;
-  const pages = pagesInput.value;
-  const finished = finishedInput.checked;
+// bookForm.addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   const title = titleInput.value;
+//   const author = authorInput.value;
+//   const pages = pagesInput.value;
+//   const finished = finishedInput.checked;
 
-  console.log(finished);
-
-  const newBook = new Book(title, author, pages, finished);
-  myLibrary.push(newBook);
-  bookForm.reset();
-  formOverlay.classList.toggle("hidden");
-  displayBooks();
-});
+//   const newBook = new Book(title, author, pages, finished);
+//   myLibrary.push(newBook);
+//   bookForm.reset();
+//   formOverlay.classList.toggle("hidden");
+//   displayBooks();
+// });

@@ -15,8 +15,45 @@
       src="https://kit.fontawesome.com/1ca06ab280.js"
       crossorigin="anonymous"
     ></script>
-    <script src="./app.js" defer></script>
+    <script src="./main.js" defer></script>
     <title>Library Project</title>
   </head>
-  <body></body>
+  <body>
+    <main>
+      <header class="header">
+        <h1 class="header">my library</h1>
+        <button class="add-btn">
+          <i class="fa-solid fa-plus"></i> add book
+        </button>
+      </header>
+      <section class="book-list"></section>
+      <section class="form-overlay hidden">
+        <form action="submitBook" id="book-form">
+          <fieldset>
+            <legend>new book info</legend>
+            <div class="input-div">
+              <label for="title">title</label>
+              <input type="text" id="title" required />
+            </div>
+            <div class="input-div">
+              <label for="author">author</label>
+              <input type="text" id="author" required />
+            </div>
+            <div class="input-div">
+              <label for="pages">pages</label>
+              <input type="number" id="pages" required min="0" />
+            </div>
+            <p class="label checkbox-directions">
+              Did you finish reading the book?
+            </p>
+            <div class="completed-div">
+              <label class="yes-label" for="yes">yes</label>
+              <input value="yes" name="yes" type="checkbox" id="yes" />
+            </div>
+            <button type="submit" class="submit-btn">submit</button>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+  </body>
 </html>

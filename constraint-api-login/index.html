@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Constraint API</title>
+    <script type="module" src="app.js" defer></script>
+    <script src="https://kit.fontawesome.com/1ca06ab280.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <body>
+    <main>
+      <header>
+        <div class="hero">
+          <h1>Best App Ever</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
+            quibusdam voluptatum, alias commodi nemo voluptatibus minus soluta
+            iusto doloribus dolores porro omnis natus obcaecati.
+          </p>
+        </div>
+        <form>
+          <fieldset>
+            <legend>sign up</legend>
+            <div class="input-div">
+              <label for="name">Full name:</label>
+              <input  type="text" id="name" name="name" />
+            </div>
+            <div class="input-div">
+              <label for="email">email:</label>
+              <input  type="text" id="email" name="email" />
+            </div>
+            <div class="location-div">
+              <div>
+                <label for="country">country</label>
+                <select id="country">
+                </select>
+              </div>
+              <div>
+                <label for="zipcode">zipcode:</label>
+                <input  type="text" id="zipcode" name="zipcode" />
+              </div>
+            </div>
+            <div class="input-div">
+              <label for="password">password:</label>
+              <input  type="password" id="password" name="password" />
+            </div>
+            <div class="input-div">
+              <label for="confirm-password">confirm password:</label>
+              <input  type="password" id="confirm-password" name="confirm-password" />
+            </div>
+            <button type="submit" class="btn submit">
+              sign up
+            </button>
+          </fieldset>
+        </form>
+      </header>
+    </main>
+  </body>
+</html>

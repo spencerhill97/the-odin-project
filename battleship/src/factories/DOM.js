@@ -3,20 +3,20 @@ const Player = require("./Player");
 const parseString = require("../utilities/parseString");
 
 const DOM = () => {
-  const currentGame = Gameboard();
+  const userBoard = Gameboard();
   const user = Player("you");
-  const cpu = Player("computer");
+  const aiBoard = Gameboard();
+  const AI = Player("computer");
+
   const _rowLength = 10;
-  console.log(currentGame.board);
+  const _playersTurn = user;
+  const _isGameReady = false;
 
   function initGame() {
     header();
-    currentGame.initializeBoard();
+    userBoard.initializeBoard();
     initBoard();
     initShips();
-    // display choices
-    // two player or against computer
-    // player one is automatically "user";
   }
 
   function header() {
@@ -30,21 +30,16 @@ const DOM = () => {
     const board = document.createElement("section");
     board.classList.add("board");
 
-    const enemyWaters = document.createElement("article");
-    enemyWaters.classList.add("enemy-waters");
-    board.append(enemyWaters);
+    const playerBoard = document.createElement("article");
+    playerBoard.classList.add("player-waters");
+    board.append(playerBoard);
 
-    const playerWaters = document.createElement("article");
-    playerWaters.classList.add("player-waters");
-    board.append(playerWaters);
-
-    playerWaters.addEventListener("dragover", (e) => {
+    playerBoard.addEventListener("dragover", (e) => {
       e.preventDefault();
-      const shipID = e.dataTransfer.getData("text/plain");
       e.dataTransfer.dropEffect = "move";
     });
 
-    playerWaters.addEventListener("drop", (e) => {
+    playerBoard.addEventListener("drop", (e) => {
       e.preventDefault();
 
       if (Array.from(e.target.classList).includes("ship-square")) {
@@ -71,7 +66,7 @@ const DOM = () => {
 
       if (checkHorizontal && checkSpace < shipLength) {
         return console.log("not enough space");
-      } else if (!currentGame.checkSquares(squares)) {
+      } else if (!userBoard.checkSquares(squares)) {
         return console.log("squares unavailable");
       }
 
@@ -80,17 +75,39 @@ const DOM = () => {
       droppedShip.classList.add("placed");
       e.target.appendChild(droppedShip);
 
-      currentGame.placeShip(currentShip, squares);
+      userBoard.placeShip(currentShip, squares);
+
+      const shipsArray = document.querySelectorAll(".ship");
+
+      // checking that all ships were placed to append start btn
+      if (
+        !Array.from(shipsArray).every((ship) =>
+          Array.from(ship.classList).includes("placed")
+        )
+      ) {
+        return;
+      }
+
+      const startBtn = document.createElement("button");
+      startBtn.classList.add("btn", "start");
+      startBtn.innerText = "start";
+      !document.querySelector(".start.btn") &&
+        document.querySelector(".ship-div").append(startBtn);
+
+      startBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        shipsArray.forEach((ship) => {
+          ship.removeAttribute("draggable");
+          ship.classList.add("started");
+        });
+        initAI();
+      });
     });
 
-    currentGame.board.forEach((num, index) => {
+    userBoard.board.forEach((num, index) => {
       const playerSquare = document.createElement("div");
       playerSquare.classList.add("square", index + 1);
-      playerWaters.append(playerSquare);
-
-      const enemySquare = document.createElement("div");
-      enemySquare.classList.add("square", index + 1);
-      enemyWaters.append(enemySquare);
+      playerBoard.append(playerSquare);
     });
 
     document.body.append(board);
@@ -99,9 +116,19 @@ const DOM = () => {
   function initShips() {
     const shipDiv = document.createElement("section");
     shipDiv.classList.add("ship-div");
-    document.body.append(shipDiv);
+    document.querySelector(".board").append(shipDiv);
 
-    user.ships.forEach((ship) => {
+    const title = document.createElement("h2");
+    title.classList.add("directions", "title");
+    title.innerText = "Place your ships!";
+    shipDiv.append(title);
+
+    const directions = document.createElement("p");
+    directions.classList.add("directions");
+    directions.innerText = "Double click your ship if you want to rotate it!";
+    shipDiv.append(directions);
+
+    user.ships.reverse().forEach((ship) => {
       const ship1 = document.createElement("div");
       ship1.classList.add("ship");
       ship1.setAttribute("id", ship.name);
@@ -133,14 +160,14 @@ const DOM = () => {
               (el, index) => startingIndex + index * 10
             );
 
-        console.log(currentGame.board);
-        console.log(ship1.id);
-        if (!currentGame.checkSquares(squares)) {
+        if (!userBoard.checkSquares(squares, currentShip)) {
           return console.log("error");
+        } else if (checkHorizontal && checkSpace < shipLength) {
+          return console.log("not enough space");
         }
 
         ship1.classList.toggle("horizontal");
-        currentGame.placeShip(currentShip, squares);
+        userBoard.placeShip(currentShip, squares);
       });
 
       let index = 0;
@@ -155,6 +182,26 @@ const DOM = () => {
 
       shipDiv.append(ship1);
     });
+  }
+
+  function initAI() {
+    aiBoard.initializeBoard();
+
+    const board = document.querySelector(".board");
+    const shipDiv = document.querySelector(".ship-div");
+    shipDiv.remove();
+
+    const enemyBoard = document.createElement("article");
+    enemyBoard.classList.add("enemy-waters");
+    document.querySelector(".board").append(enemyBoard);
+
+    aiBoard.board.forEach((num, index) => {
+      const playerSquare = document.createElement("div");
+      playerSquare.classList.add("square", index + 1);
+      enemyBoard.append(playerSquare);
+    });
+
+    board.append(enemyBoard);
   }
 
   return { initGame };

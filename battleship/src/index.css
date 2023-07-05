@@ -98,6 +98,7 @@ h1 {
   -webkit-backdrop-filter: blur(3.5px);
   border-radius: 0;
   z-index: 1;
+  cursor: pointer;
 }
 
 .enemy-waters {
@@ -114,11 +115,26 @@ h1 {
 }
 
 .ship-div {
+  position: relative;
   display: flex;
-  gap: 50px;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  padding-top: 50px;
+  align-content: flex-start;
+  gap: 24px;
+  width: 300px;
+  padding: 20px;
+}
+
+.directions.title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.directions {
+  width: 100%;
+  color: white;
+  font-family: "Lato";
 }
 
 .ship {
@@ -135,9 +151,42 @@ h1 {
   cursor: grabbing;
 }
 
+.ship.started {
+  cursor: pointer;
+}
+
+.ship.started {
+  cursor: pointer;
+}
+
 .ship-square {
   width: 30px;
+  height: 30px;
   aspect-ratio: 1 / 1;
   border: 1px solid #cbd5e1;
   background-color: #94a3b8;
+}
+
+.start.btn {
+  width: 125px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: Arial;
+  font-weight: 700;
+  letter-spacing: 0.03rem;
+  font-size: 1.25rem;
+  margin-top: 25px;
+  cursor: pointer;
+  border: none;
+  background-color: red;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.start.btn:active {
+  background-color: black;
+  border: 2.5px solid red;
+  color: white;
+  box-shadow: none;
 }

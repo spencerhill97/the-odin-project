@@ -12,15 +12,17 @@ const Gameboard = () => {
     return board.find((el) => Number(el.square) === square);
   }
 
-  function checkSquares(squares) {
-    if (!squares) return console.log("ran");
-    return Array.isArray(squares)
-      ? squares.every(
-          (square) => getSquare(square) && !getSquare(square).occupied
-        )
-      : [squares].every(
-          (square) => getSquare(square) && !getSquare(square).occupied
-        );
+  function checkSquares(squares, ship) {
+    if (!squares) return console.log("checkSquares error");
+    const iterable = Array.isArray(squares) ? squares : [squares];
+
+    return iterable.every(
+      (square) =>
+        (getSquare(square) && !getSquare(square).occupied) ||
+        (getSquare(square) &&
+          ship.name &&
+          getSquare(square).occupied === ship.name)
+    );
   }
 
   function fillSquares(ship, squares) {
@@ -38,7 +40,7 @@ const Gameboard = () => {
   }
 
   function placeShip(ship, squares) {
-    if (!checkSquares(squares)) return console.log("invalid");
+    // if (!checkSquares(squares)) return console.log("invalid");
     fillSquares(ship, squares);
     ship.addSquare(squares);
   }

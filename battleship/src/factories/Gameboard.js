@@ -4,7 +4,7 @@ const Gameboard = () => {
   // tested
   function initializeBoard() {
     for (let i = 0; i < new Array(100).length; i++) {
-      board.push({ square: i, occupied: null });
+      board.push({ square: i + 1, occupied: null });
     }
   }
 
@@ -24,7 +24,7 @@ const Gameboard = () => {
     const iterable = (Array.isArray(squares) && squares) ||
       (arguments.length > 1 && Array.from(arguments)) || [squares];
 
-    iterable.forEach((el, index) => (board[index].occupied = ship));
+    iterable.forEach((el, index) => console.log(el));
   }
 
   function placeShip(ship, squares) {

@@ -1,4 +1,5 @@
+require("../src/index.css");
 const DOM = require("../src/factories/DOM");
+const dom = DOM();
 
-console.log("hello");
-DOM.header();
+dom.initGame();

@@ -1,3 +1,5 @@
 const DOM = require("../DOM");
 
-test();
+test("test", () => {
+  expect();
+});

@@ -12,7 +12,7 @@ test("testing the length of the game board", () => {
 
 test("confirming keys of each square on the board", () => {
   expect(fakeGameboard.board[0]).toEqual({
-    square: 0,
+    square: 1,
     occupied: null,
   });
 });

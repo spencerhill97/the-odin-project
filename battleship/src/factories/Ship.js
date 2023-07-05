@@ -6,6 +6,8 @@ const Ship = (name, length) => {
       return console.log("error");
     }
 
+    squares.length = 0;
+
     const iterable = (Array.isArray(number) && number) ||
       (arguments.length > 1 && Array.from(arguments)) || [number];
 
@@ -21,7 +23,7 @@ const Ship = (name, length) => {
   }
 
   function getSquares() {
-    return squares.map((el) => el.square);
+    if (squares.length) return squares.map((el) => el.square);
   }
 
   function getSquare(number) {

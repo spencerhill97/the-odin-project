@@ -46,29 +46,19 @@ const DOM = () => {
 
     playerWaters.addEventListener("drop", (e) => {
       e.preventDefault();
+
+      if (Array.from(e.target.classList).includes("ship-square")) {
+        return console.log("squares taken");
+      }
+
       const shipID = e.dataTransfer.getData("text/plain");
       const droppedShip = document.getElementById(shipID);
       const checkHorizontal =
         Array.from(droppedShip.classList).includes("horizontal") === true;
       const shipLength = Number(droppedShip.lastChild.id);
       const startingIndex = parseString(e.target.classList.value);
-      const lastIndex = checkHorizontal
-        ? startingIndex + Number(droppedShip.lastChild.id) - 1
-        : _rowLength * Number(droppedShip.lastChild.id) -
-          _rowLength +
-          startingIndex;
       const checkSpace =
         startingIndex % 10 === 0 ? 0 : _rowLength - (startingIndex % 10) + 1;
-
-      if (
-        (checkHorizontal && checkSpace < shipLength) ||
-        // checkSquares validates by index, so need to minus one here;
-        !currentGame.checkSquares([startingIndex - 1, lastIndex - 1])
-      ) {
-        return;
-      }
-
-      const currentShip = user.getShip(shipID);
       const squares = checkHorizontal
         ? Array.from(
             { length: shipLength },
@@ -79,13 +69,18 @@ const DOM = () => {
             (el, index) => startingIndex + index * 10
           );
 
+      if (checkHorizontal && checkSpace < shipLength) {
+        return console.log("not enough space");
+      } else if (!currentGame.checkSquares(squares)) {
+        return console.log("squares unavailable");
+      }
+
+      const currentShip = user.getShip(shipID);
       droppedShip.style.position = "absolute";
+      droppedShip.classList.add("placed");
       e.target.appendChild(droppedShip);
 
-      console.log(squares);
       currentGame.placeShip(currentShip, squares);
-      console.log(currentShip);
-      console.log(currentGame.board);
     });
 
     currentGame.board.forEach((num, index) => {
@@ -117,7 +112,35 @@ const DOM = () => {
       });
 
       ship1.addEventListener("dblclick", (e) => {
-        e.target.parentElement.classList.toggle("horizontal");
+        if (!Array.from(ship1.classList).includes("placed")) {
+          return ship1.classList.toggle("horizontal");
+        }
+
+        const currentShip = user.getShip(ship1.id);
+        const shipLength = currentShip.length;
+        const checkHorizontal =
+          Array.from(ship1.classList).includes("horizontal") !== true;
+        const startingIndex = parseString(ship1.parentElement.classList.value);
+        const checkSpace =
+          startingIndex % 10 === 0 ? 0 : _rowLength - (startingIndex % 10) + 1;
+        const squares = checkHorizontal
+          ? Array.from(
+              { length: shipLength },
+              (el, index) => startingIndex + index
+            )
+          : Array.from(
+              { length: shipLength },
+              (el, index) => startingIndex + index * 10
+            );
+
+        console.log(currentGame.board);
+        console.log(ship1.id);
+        if (!currentGame.checkSquares(squares)) {
+          return console.log("error");
+        }
+
+        ship1.classList.toggle("horizontal");
+        currentGame.placeShip(currentShip, squares);
       });
 
       let index = 0;

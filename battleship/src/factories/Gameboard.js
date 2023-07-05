@@ -8,15 +8,19 @@ const Gameboard = () => {
     }
   }
 
-  function returnSquare(square) {
-    return board[square - 1];
+  function getSquare(square) {
+    return board.find((el) => Number(el.square) === square);
   }
 
   function checkSquares(squares) {
-    if (!squares) return;
+    if (!squares) return console.log("ran");
     return Array.isArray(squares)
-      ? squares.every((square) => board[square] && !board[square].occupied)
-      : [squares].every((square) => board[square] && !board[square].occupied);
+      ? squares.every(
+          (square) => getSquare(square) && !getSquare(square).occupied
+        )
+      : [squares].every(
+          (square) => getSquare(square) && !getSquare(square).occupied
+        );
   }
 
   function fillSquares(ship, squares) {
@@ -24,18 +28,24 @@ const Gameboard = () => {
     const iterable = (Array.isArray(squares) && squares) ||
       (arguments.length > 1 && Array.from(arguments)) || [squares];
 
-    iterable.forEach((el, index) => console.log(el));
+    board.forEach((el) => {
+      if (el.occupied === ship.name) {
+        el.occupied = null;
+      }
+    });
+
+    iterable.forEach((el) => (getSquare(el).occupied = ship.name));
   }
 
   function placeShip(ship, squares) {
-    if (!checkSquares(squares)) return;
+    if (!checkSquares(squares)) return console.log("invalid");
     fillSquares(ship, squares);
     ship.addSquare(squares);
   }
 
   function receiveAttack(square, opponent) {
-    if (checkSquares(square)) return (board[square].occupied = "miss");
-    const name = board[square].occupied.name;
+    if (checkSquares(square)) return (getSquare(square).occupied = "miss");
+    const name = getSquare(square).occupied;
     opponent.getShip(name).hit(square);
   }
 
@@ -45,7 +55,7 @@ const Gameboard = () => {
     checkSquares,
     placeShip,
     receiveAttack,
-    returnSquare,
+    getSquare,
     board,
   };
 };

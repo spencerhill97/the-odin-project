@@ -15,7 +15,6 @@ const Gameboard = () => {
   function checkSquares(squares, ship) {
     if (!squares) return;
     const iterable = Array.isArray(squares) ? squares : [squares];
-
     // checking that all squares in the board array
     if (iterable.some((square) => !getSquare(square))) return;
 
@@ -41,7 +40,7 @@ const Gameboard = () => {
   }
 
   function placeShip(ship, squares) {
-    if (!checkSquares(squares)) return;
+    if (!checkSquares(squares, ship)) return;
     fillSquares(ship, squares);
     ship.addSquare(squares);
   }
@@ -65,23 +64,25 @@ const Gameboard = () => {
 
   function placeShipRandomly(ship) {
     const randomIndex = Math.floor(Math.random() * board.length + 1);
-    let squares = Array.from(
-      { length: ship.length },
-      (el, index) => randomIndex + index * 10
-    );
-
-    if (checkSquares(squares)) {
-      return placeShip(ship, squares);
-    }
-
-    squares = Array.from(
-      { length: ship.length },
-      (el, index) => randomIndex + index
-    );
+    // if randomDir returns zero it will attempt to vertically replace
+    // ship before horizontally
+    const randomDir = Math.floor(Math.random() * 2);
+    let squares =
+      randomDir === 0
+        ? Array.from(
+            { length: ship.length },
+            (el, index) => randomIndex + index * 10
+          )
+        : Array.from(
+            { length: ship.length },
+            (el, index) => randomIndex + index
+          );
     const checkSpace =
       randomIndex % 10 === 0 ? 0 : _rowLength - (randomIndex % 10) + 1;
 
-    if (checkSquares(squares) && checkSpace) {
+    if (!randomDir && checkSquares(squares)) {
+      return placeShip(ship, squares);
+    } else if (checkSquares(squares) && checkSpace) {
       return placeShip(ship, squares);
     }
 

@@ -12,7 +12,7 @@ const Drag = (board, player) => {
     event.preventDefault();
 
     if (Array.from(event.target.classList).includes("ship-square")) {
-      return console.log("squares taken");
+      return;
     }
 
     const shipID = event.dataTransfer.getData("text/plain");
@@ -31,9 +31,9 @@ const Drag = (board, player) => {
         );
 
     if (checkHorizontal && checkSpace < shipLength) {
-      return console.log("not enough space");
+      return;
     } else if (!board.checkSquares(squares)) {
-      return console.log("squares unavailable");
+      return;
     }
 
     const currentShip = player.getShip(shipID);
@@ -62,10 +62,20 @@ const Drag = (board, player) => {
 
     startBtn.addEventListener("click", (e) => {
       e.preventDefault();
+      const playerBoard = document.querySelector(".player-board");
+      playerBoard.removeEventListener("dragover", dragOver);
+      playerBoard.removeEventListener("drop", dropShip);
+
       shipsArray.forEach((ship) => {
         ship.removeAttribute("draggable");
-        ship.classList.add("started");
+        ship.removeEventListener("dragStart", dragStart);
+        ship.removeEventListener("dblclick", doubleClick);
       });
+
+      const shipDiv = document.querySelector(".ship-div");
+      const ev = new Event("change");
+      shipDiv.dispatchEvent(ev);
+      shipDiv.remove();
     });
   }
 
@@ -96,9 +106,9 @@ const Drag = (board, player) => {
         );
 
     if (!board.checkSquares(squares, currentShip)) {
-      return console.log("error");
+      return;
     } else if (checkHorizontal && checkSpace < shipLength) {
-      return console.log("not enough space");
+      return;
     }
 
     ship.classList.toggle("horizontal");

@@ -8,6 +8,7 @@ const DOM = () => {
   const aiBoard = Gameboard();
   const AI = Player("computer");
   const drag = Drag(userBoard, user);
+  let gameReady = false;
 
   function initGame() {
     header();
@@ -76,8 +77,13 @@ const DOM = () => {
         currentShip.append(sq);
         index++;
       }
-
       shipDiv.append(currentShip);
+    });
+
+    shipDiv.addEventListener("change", (e) => {
+      e.preventDefault();
+      initAI();
+      console.log(aiBoard.board);
     });
   }
 
@@ -85,11 +91,9 @@ const DOM = () => {
     aiBoard.initializeBoard();
 
     const board = document.querySelector(".board");
-    const shipDiv = document.querySelector(".ship-div");
-    shipDiv.remove();
 
     const enemyBoard = document.createElement("article");
-    enemyBoard.classList.add("enemy-waters");
+    enemyBoard.classList.add("enemy-board");
     document.querySelector(".board").append(enemyBoard);
 
     aiBoard.board.forEach((num, index) => {
@@ -125,7 +129,7 @@ const DOM = () => {
       }
     });
 
-    board.append(enemyBoard);
+    board.prepend(enemyBoard);
   }
 
   return { initGame };

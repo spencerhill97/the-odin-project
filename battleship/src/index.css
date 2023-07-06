@@ -89,7 +89,7 @@ h1 {
   gap: 50px;
 }
 
-.board .enemy-waters,
+.board .enemy-board,
 .board .player-board {
   position: relative;
   display: grid;
@@ -105,10 +105,9 @@ h1 {
   -webkit-backdrop-filter: blur(3.5px);
   border-radius: 0;
   z-index: 1;
-  cursor: pointer;
 }
 
-.enemy-waters {
+.enemy-board {
   cursor: pointer;
 }
 
@@ -147,23 +146,18 @@ h1 {
 .ship {
   display: flex;
   flex-direction: column;
-  cursor: grab;
 }
 
 .ship.horizontal {
   flex-direction: row;
 }
 
-.ship:active {
+.ship[draggable] {
+  cursor: grab;
+}
+
+.ship[draggable]:active {
   cursor: grabbing;
-}
-
-.ship.started {
-  cursor: pointer;
-}
-
-.ship.started {
-  cursor: pointer;
 }
 
 .ship-square {

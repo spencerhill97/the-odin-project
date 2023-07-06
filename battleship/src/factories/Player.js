@@ -1,6 +1,8 @@
 const Ship = require("./Ship");
 
-const Player = (name) => {
+const Player = (name, boolean) => {
+  let AI = boolean;
+
   const carrier = Ship("carrier", 5);
   const battleship = Ship("battleship", 4);
   const cruiser = Ship("cruiser", 3);

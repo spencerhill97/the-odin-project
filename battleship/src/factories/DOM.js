@@ -1,16 +1,13 @@
 const Gameboard = require("./Gameboard");
 const Player = require("./Player");
-const parseString = require("../utilities/parseString");
+const Drag = require("./Drag");
 
 const DOM = () => {
   const userBoard = Gameboard();
   const user = Player("you");
   const aiBoard = Gameboard();
   const AI = Player("computer");
-
-  const _rowLength = 10;
-  const _playersTurn = user;
-  const _isGameReady = false;
+  const drag = Drag(userBoard, user);
 
   function initGame() {
     header();
@@ -31,78 +28,11 @@ const DOM = () => {
     board.classList.add("board");
 
     const playerBoard = document.createElement("article");
-    playerBoard.classList.add("player-waters");
+    playerBoard.classList.add("player-board");
     board.append(playerBoard);
 
-    playerBoard.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = "move";
-    });
-
-    playerBoard.addEventListener("drop", (e) => {
-      e.preventDefault();
-
-      if (Array.from(e.target.classList).includes("ship-square")) {
-        return console.log("squares taken");
-      }
-
-      const shipID = e.dataTransfer.getData("text/plain");
-      const droppedShip = document.getElementById(shipID);
-      const checkHorizontal =
-        Array.from(droppedShip.classList).includes("horizontal") === true;
-      const shipLength = Number(droppedShip.lastChild.id);
-      const startingIndex = parseString(e.target.classList.value);
-      const checkSpace =
-        startingIndex % 10 === 0 ? 0 : _rowLength - (startingIndex % 10) + 1;
-      const squares = checkHorizontal
-        ? Array.from(
-            { length: shipLength },
-            (el, index) => startingIndex + index
-          )
-        : Array.from(
-            { length: shipLength },
-            (el, index) => startingIndex + index * 10
-          );
-
-      if (checkHorizontal && checkSpace < shipLength) {
-        return console.log("not enough space");
-      } else if (!userBoard.checkSquares(squares)) {
-        return console.log("squares unavailable");
-      }
-
-      const currentShip = user.getShip(shipID);
-      droppedShip.style.position = "absolute";
-      droppedShip.classList.add("placed");
-      e.target.appendChild(droppedShip);
-
-      userBoard.placeShip(currentShip, squares);
-
-      const shipsArray = document.querySelectorAll(".ship");
-
-      // checking that all ships were placed to append start btn
-      if (
-        !Array.from(shipsArray).every((ship) =>
-          Array.from(ship.classList).includes("placed")
-        )
-      ) {
-        return;
-      }
-
-      const startBtn = document.createElement("button");
-      startBtn.classList.add("btn", "start");
-      startBtn.innerText = "start";
-      !document.querySelector(".start.btn") &&
-        document.querySelector(".ship-div").append(startBtn);
-
-      startBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        shipsArray.forEach((ship) => {
-          ship.removeAttribute("draggable");
-          ship.classList.add("started");
-        });
-        initAI();
-      });
-    });
+    playerBoard.addEventListener("dragover", drag.dragOver);
+    playerBoard.addEventListener("drop", drag.dropShip);
 
     userBoard.board.forEach((num, index) => {
       const playerSquare = document.createElement("div");
@@ -125,50 +55,17 @@ const DOM = () => {
 
     const directions = document.createElement("p");
     directions.classList.add("directions");
-    directions.innerText = "Double click your ship if you want to rotate it!";
+    directions.innerText = "Double click your ships to rotate them!";
     shipDiv.append(directions);
 
     user.ships.reverse().forEach((ship) => {
-      const ship1 = document.createElement("div");
-      ship1.classList.add("ship");
-      ship1.setAttribute("id", ship.name);
-      ship1.draggable = true;
+      const currentShip = document.createElement("div");
+      currentShip.classList.add("ship");
+      currentShip.setAttribute("id", ship.name);
+      currentShip.draggable = true;
 
-      ship1.addEventListener("dragstart", (e) => {
-        e.dataTransfer.setData("text/plain", ship1.id);
-      });
-
-      ship1.addEventListener("dblclick", (e) => {
-        if (!Array.from(ship1.classList).includes("placed")) {
-          return ship1.classList.toggle("horizontal");
-        }
-
-        const currentShip = user.getShip(ship1.id);
-        const shipLength = currentShip.length;
-        const checkHorizontal =
-          Array.from(ship1.classList).includes("horizontal") !== true;
-        const startingIndex = parseString(ship1.parentElement.classList.value);
-        const checkSpace =
-          startingIndex % 10 === 0 ? 0 : _rowLength - (startingIndex % 10) + 1;
-        const squares = checkHorizontal
-          ? Array.from(
-              { length: shipLength },
-              (el, index) => startingIndex + index
-            )
-          : Array.from(
-              { length: shipLength },
-              (el, index) => startingIndex + index * 10
-            );
-
-        if (!userBoard.checkSquares(squares, currentShip)) {
-          return console.log("error");
-        } else if (checkHorizontal && checkSpace < shipLength) {
-          return console.log("not enough space");
-        }
-
-        ship1.classList.toggle("horizontal");
-        userBoard.placeShip(currentShip, squares);
-      });
+      currentShip.addEventListener("dragstart", drag.dragStart);
+      currentShip.addEventListener("dblclick", drag.doubleClick);
 
       let index = 0;
 
@@ -176,11 +73,11 @@ const DOM = () => {
         const sq = document.createElement("div");
         sq.classList.add("ship-square");
         sq.setAttribute("id", index + 1);
-        ship1.append(sq);
+        currentShip.append(sq);
         index++;
       }
 
-      shipDiv.append(ship1);
+      shipDiv.append(currentShip);
     });
   }
 
@@ -196,9 +93,33 @@ const DOM = () => {
     document.querySelector(".board").append(enemyBoard);
 
     aiBoard.board.forEach((num, index) => {
-      const playerSquare = document.createElement("div");
-      playerSquare.classList.add("square", index + 1);
-      enemyBoard.append(playerSquare);
+      const enemySquare = document.createElement("div");
+      enemySquare.classList.add("square", index + 1);
+      enemyBoard.append(enemySquare);
+    });
+
+    AI.ships.forEach((ship) => {
+      const currentShip = document.createElement("div");
+      currentShip.classList.add("ship");
+      currentShip.setAttribute("id", ship.name);
+
+      let index = 0;
+
+      while (index < ship.length) {
+        const sq = document.createElement("div");
+        sq.classList.add("ship-square");
+        sq.setAttribute("id", index + 1);
+        currentShip.append(sq);
+        index++;
+      }
+
+      const randomStartingIndex = Math.floor(
+        Math.random() * aiBoard.board.length + 1
+      );
+
+      while (true) {
+        break;
+      }
     });
 
     board.append(enemyBoard);

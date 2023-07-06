@@ -52,7 +52,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   height: 100vh;
-  background-color: black;
+  background-image: linear-gradient(
+    to left top,
+    #1e3a8a,
+    #163777,
+    #163363,
+    #1a2e4f,
+    #1e293b
+  );
 }
 
 h1 {
@@ -83,7 +90,7 @@ h1 {
 }
 
 .board .enemy-waters,
-.board .player-waters {
+.board .player-board {
   position: relative;
   display: grid;
   aspect-ratio: 1 / 1;

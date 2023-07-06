@@ -80,12 +80,12 @@ test("checking that after placing ships that squares are marked occupied", () =>
 
 /*======================================== comment ======================================== */
 test("testing for a valid hit on ship", () => {
-  testGame.receiveAttack(0, playerOne);
+  testGame.receiveAttack(1, playerOne.getShip("carrier"));
   expect(playerOne.getShip("carrier").getSquare(1).hit).toBe(true);
 });
 
 test("testing for a invalid hit on ship", () => {
-  expect(playerOne.getShip("carrier").getSquare(1).hit).toBe(false);
+  expect(playerOne.getShip("carrier").getSquare(2).hit).toBe(false);
 });
 
 test("testing for miss", () => {

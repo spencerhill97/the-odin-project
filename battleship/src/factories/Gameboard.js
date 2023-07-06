@@ -1,7 +1,6 @@
 const Gameboard = () => {
   let board = [];
 
-  // tested
   function initializeBoard() {
     for (let i = 0; i < new Array(100).length; i++) {
       board.push({ square: i + 1, occupied: null });
@@ -15,6 +14,9 @@ const Gameboard = () => {
   function checkSquares(squares, ship) {
     if (!squares) return console.log("checkSquares error");
     const iterable = Array.isArray(squares) ? squares : [squares];
+
+    // checking that all squares in the board array
+    if (iterable.some((square) => !getSquare(square))) return;
 
     return iterable.every(
       (square) =>
@@ -40,15 +42,16 @@ const Gameboard = () => {
   }
 
   function placeShip(ship, squares) {
-    // if (!checkSquares(squares)) return console.log("invalid");
+    if (!checkSquares(squares)) return console.log("invalid");
     fillSquares(ship, squares);
     ship.addSquare(squares);
   }
 
   function receiveAttack(square, opponent) {
-    if (checkSquares(square)) return (getSquare(square).occupied = "miss");
-    const name = getSquare(square).occupied;
-    opponent.getShip(name).hit(square);
+    if (!getSquare(square).occupied)
+      return (getSquare(square).occupied = "miss");
+    const occupied = getSquare(square).occupied;
+    opponent.hit(square);
   }
 
   return {

@@ -18,3 +18,7 @@ test("testing to get ship instance by name", () => {
 test("testing to get ship instance by name", () => {
   expect(fakePlayerOne.getShip("otis")).toBeFalsy();
 });
+
+test("testing to see that AI is set to false", () => {
+  expect(fakePlayerOne.AI).toBeUndefined();
+});

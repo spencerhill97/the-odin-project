@@ -17,9 +17,11 @@ const Ship = (name, length) => {
   function hit(number) {
     squares.forEach((el, index) => {
       if (el.square === number) {
-        squares[index].hit = true;
+        el.hit = true;
       }
     });
+
+    sunk();
   }
 
   function getSquares() {

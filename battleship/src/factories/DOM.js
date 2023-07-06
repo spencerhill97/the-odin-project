@@ -1,6 +1,7 @@
 const Gameboard = require("./Gameboard");
 const Player = require("./Player");
 const Drag = require("./Drag");
+const parseString = require("../utilities/parseString");
 
 const DOM = () => {
   const userBoard = Gameboard();
@@ -8,7 +9,7 @@ const DOM = () => {
   const aiBoard = Gameboard();
   const AI = Player("computer");
   const drag = Drag(userBoard, user);
-  let gameReady = false;
+  const players1sTurn = true;
 
   function initGame() {
     header();
@@ -83,7 +84,6 @@ const DOM = () => {
     shipDiv.addEventListener("change", (e) => {
       e.preventDefault();
       initAI();
-      console.log(aiBoard.board);
     });
   }
 
@@ -100,6 +100,11 @@ const DOM = () => {
       const enemySquare = document.createElement("div");
       enemySquare.classList.add("square", index + 1);
       enemyBoard.append(enemySquare);
+      enemySquare.addEventListener("click", (e) => {
+        const sq = parseString(e.target.classList.value);
+        aiBoard.receiveAttack(sq, AI);
+        console.log(aiBoard.getSquare(sq));
+      });
     });
 
     AI.ships.forEach((ship) => {
@@ -114,6 +119,7 @@ const DOM = () => {
         sq.classList.add("ship-square");
         sq.setAttribute("id", index + 1);
         currentShip.append(sq);
+
         index++;
       }
 
@@ -130,7 +136,12 @@ const DOM = () => {
     });
 
     board.prepend(enemyBoard);
+    // startGame();
   }
+
+  // function startGame() {
+  //   while (true) {}
+  // }
 
   return { initGame };
 };

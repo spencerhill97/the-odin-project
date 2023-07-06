@@ -1,6 +1,5 @@
 const Gameboard = require("../Gameboard");
 const Player = require("../Player");
-const Ship = require("../Ship");
 
 const fakeGameboard = Gameboard();
 fakeGameboard.initializeBoard();
@@ -11,7 +10,7 @@ test("testing the length of the game board", () => {
 });
 
 test("confirming keys of each square on the board", () => {
-  expect(fakeGameboard.board[0]).toEqual({
+  expect(fakeGameboard.getSquare(1)).toEqual({
     square: 1,
     occupied: null,
   });
@@ -50,37 +49,37 @@ const playerOne = Player("player one");
 const playerTwo = Player("player two");
 
 test("checking that ships were placed correctly", () => {
-  testGame.placeShip(playerOne.ships[0], [1, 2, 3, 4, 5]);
-  expect(playerOne.ships[0].getSquares()).toContain(1);
-  expect(testGame.board[0].occupied).not.toBeNull();
-  expect(playerOne.ships[0].getSquares()).toContain(2);
-  expect(playerOne.ships[0].getSquares()).toContain(3);
-  expect(playerOne.ships[0].getSquares()).toContain(4);
-  expect(playerOne.ships[0].getSquares()).toContain(5);
-  expect(playerOne.ships[0].getSquares()).not.toContain(6);
+  testGame.placeShip(playerOne.getShip("carrier"), [1, 2, 3, 4, 5]);
+  expect(playerOne.getShip("carrier").getSquares()).toContain(1);
+  expect(playerOne.getShip("carrier").occupied).not.toBeNull();
+  expect(playerOne.getShip("carrier").getSquares()).toContain(2);
+  expect(playerOne.getShip("carrier").getSquares()).toContain(3);
+  expect(playerOne.getShip("carrier").getSquares()).toContain(4);
+  expect(playerOne.getShip("carrier").getSquares()).toContain(5);
+  expect(playerOne.getShip("carrier").getSquares()).not.toContain(6);
 });
 
 test("checking that ships were placed incorrectly", () => {
-  testGame.placeShip(playerOne.ships[1], [1, 2, 3, 105]);
+  testGame.placeShip(playerOne.getShip("battleship"), [1, 2, 3, 105]);
   // returns undefined and ships.squares is an empty array
-  expect(testGame.placeShip(playerOne.ships[1], [1, 2, 3, 105])).toBe(
-    undefined
-  );
+  expect(
+    testGame.placeShip(playerOne.getShip("battleship"), [1, 2, 3, 105])
+  ).toBe(undefined);
 });
 
 test("checking that after placing ships that squares are marked occupied", () => {
-  expect(testGame.board[0].occupied).toBeTruthy();
-  expect(testGame.board[1].occupied).toBeTruthy();
-  expect(testGame.board[2].occupied).toBeTruthy();
-  expect(testGame.board[3].occupied).toBeTruthy();
-  expect(testGame.board[4].occupied).toBeTruthy();
+  expect(testGame.getSquare(1).occupied).toBeTruthy();
+  expect(testGame.getSquare(2).occupied).toBeTruthy();
+  expect(testGame.getSquare(3).occupied).toBeTruthy();
+  expect(testGame.getSquare(4).occupied).toBeTruthy();
+  expect(testGame.getSquare(5).occupied).toBeTruthy();
   // checking for square that is not assigned a ship
   expect(testGame.board[6].occupied).toBeNull();
 });
 
 /*======================================== comment ======================================== */
 test("testing for a valid hit on ship", () => {
-  testGame.receiveAttack(1, playerOne.getShip("carrier"));
+  testGame.receiveAttack(1, playerOne);
   expect(playerOne.getShip("carrier").getSquare(1).hit).toBe(true);
 });
 
@@ -90,16 +89,16 @@ test("testing for a invalid hit on ship", () => {
 
 test("testing for miss", () => {
   testGame.receiveAttack(100, playerOne);
-  expect(testGame.board[99].occupied).toBe("miss");
+  expect(testGame.getSquare(100).occupied).toBe("miss");
 });
 
 /*======================================== comment ======================================== */
 test("testing for a sunken ship to return true", () => {
-  testGame.receiveAttack(1, playerOne.getShip("carrier"));
-  testGame.receiveAttack(2, playerOne.getShip("carrier"));
-  testGame.receiveAttack(3, playerOne.getShip("carrier"));
-  testGame.receiveAttack(4, playerOne.getShip("carrier"));
-  testGame.receiveAttack(5, playerOne.getShip("carrier"));
+  testGame.receiveAttack(1, playerOne);
+  testGame.receiveAttack(2, playerOne);
+  testGame.receiveAttack(3, playerOne);
+  testGame.receiveAttack(4, playerOne);
+  testGame.receiveAttack(5, playerOne);
   expect(playerOne.getShip("carrier").sunk()).toBe(true);
 });
 

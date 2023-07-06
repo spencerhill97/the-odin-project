@@ -46,10 +46,18 @@ const Gameboard = () => {
   }
 
   function receiveAttack(square, opponent) {
-    if (!getSquare(square).occupied)
+    if (!getSquare(square).occupied) {
       return (getSquare(square).occupied = "miss");
+    } else if (
+      getSquare(square).occupied === "hit" ||
+      getSquare(square).occupied === "miss"
+    ) {
+      return;
+    }
+
     const occupied = getSquare(square).occupied;
-    opponent.hit(square);
+    opponent.getShip(occupied).hit(square);
+    getSquare(square).occupied = "hit";
   }
 
   function getSurroundingSquares(square) {

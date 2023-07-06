@@ -15,7 +15,7 @@ const Player = (name, boolean) => {
 
   const ships = [carrier, battleship, cruiser, submarine, destroyer];
 
-  return { name, ships, getShip };
+  return { name, ships, getShip, AI };
 };
 
 module.exports = Player;

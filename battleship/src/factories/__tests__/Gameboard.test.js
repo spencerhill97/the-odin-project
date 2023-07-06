@@ -94,14 +94,65 @@ test("testing for miss", () => {
 });
 
 /*======================================== comment ======================================== */
-// test("testing for a sunken ship to return true", () => {
-//   testGame.receiveAttack(1, playerOne);
-//   testGame.receiveAttack(2, playerOne);
-//   testGame.receiveAttack(3, playerOne);
-//   testGame.receiveAttack(4, playerOne);
-//   expect(playerOne.getShip("carrier").sunk()).toBe(true);
-// });
+test("testing for a sunken ship to return true", () => {
+  testGame.receiveAttack(1, playerOne.getShip("carrier"));
+  testGame.receiveAttack(2, playerOne.getShip("carrier"));
+  testGame.receiveAttack(3, playerOne.getShip("carrier"));
+  testGame.receiveAttack(4, playerOne.getShip("carrier"));
+  testGame.receiveAttack(5, playerOne.getShip("carrier"));
+  expect(playerOne.getShip("carrier").sunk()).toBe(true);
+});
 
 test("testing for a ship thats not sunk to return false", () => {
   expect(playerTwo.getShip("carrier").sunk()).toBe(false);
+});
+/*======================================== comment ======================================== */
+test("checking for surrounding squares", () => {
+  expect(fakeGameboard.getSurroundingSquares(45)).toContain(46);
+  expect(fakeGameboard.getSurroundingSquares(45)).toContain(44);
+  expect(fakeGameboard.getSurroundingSquares(45)).toContain(55);
+  expect(fakeGameboard.getSurroundingSquares(45)).toContain(35);
+});
+
+test("testing for square above 100 to return null", () => {
+  expect(fakeGameboard.getSurroundingSquares(95)).not.toContain(105);
+});
+
+test("testing for square below 1 to return null", () => {
+  expect(fakeGameboard.getSurroundingSquares(5)).not.toContain(-5);
+});
+
+test("testing for square at end of row to return null", () => {
+  expect(fakeGameboard.getSurroundingSquares(50)).not.toContain(51);
+});
+
+test("testing for square at beginning of row to return null", () => {
+  expect(fakeGameboard.getSurroundingSquares(21)).not.toContain(20);
+});
+
+/*======================================== comment ======================================== */
+const randomBoard = Gameboard();
+randomBoard.initializeBoard();
+const AI = Player("ai", true);
+
+test("testing for randomly placed ships", () => {
+  AI.ships.forEach((ship) => {
+    while (true) {
+      randomBoard.placeShipRandomly(ship);
+      if (ship.squares.length > 0) {
+        break;
+      }
+    }
+  });
+  expect(AI.getShip("carrier").squares.length === AI.getShip("carrier").length);
+  expect(
+    AI.getShip("submarine").squares.length === AI.getShip("submarine").length
+  );
+  expect(AI.getShip("cruiser").squares.length === AI.getShip("cruiser").length);
+  expect(
+    AI.getShip("destroyer").squares.length === AI.getShip("destroyer").length
+  );
+  expect(
+    AI.getShip("battleship").squares.length === AI.getShip("battleship").length
+  );
 });

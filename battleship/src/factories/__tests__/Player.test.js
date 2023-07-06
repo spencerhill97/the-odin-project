@@ -22,3 +22,10 @@ test("testing to get ship instance by name", () => {
 test("testing to see that AI is set to false", () => {
   expect(fakePlayerOne.AI).toBeUndefined();
 });
+
+/*======================================== testing ======================================== */
+const fakeAI = Player("ai", true);
+
+test("testing to see that AI is set to false", () => {
+  expect(fakeAI.AI).toBe(true);
+});

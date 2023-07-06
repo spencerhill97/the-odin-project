@@ -118,7 +118,10 @@ const DOM = () => {
       );
 
       while (true) {
-        break;
+        aiBoard.placeShipRandomly(ship);
+        if (ship.squares.length > 0) {
+          break;
+        }
       }
     });
 

@@ -1,5 +1,6 @@
 const Gameboard = () => {
   let board = [];
+  const _rowLength = 10;
 
   function initializeBoard() {
     for (let i = 0; i < new Array(100).length; i++) {
@@ -12,7 +13,7 @@ const Gameboard = () => {
   }
 
   function checkSquares(squares, ship) {
-    if (!squares) return console.log("checkSquares error");
+    if (!squares) return;
     const iterable = Array.isArray(squares) ? squares : [squares];
 
     // checking that all squares in the board array
@@ -21,9 +22,7 @@ const Gameboard = () => {
     return iterable.every(
       (square) =>
         (getSquare(square) && !getSquare(square).occupied) ||
-        (getSquare(square) &&
-          ship.name &&
-          getSquare(square).occupied === ship.name)
+        (getSquare(square) && ship && getSquare(square).occupied === ship.name)
     );
   }
 
@@ -42,7 +41,7 @@ const Gameboard = () => {
   }
 
   function placeShip(ship, squares) {
-    if (!checkSquares(squares)) return console.log("invalid");
+    if (!checkSquares(squares)) return;
     fillSquares(ship, squares);
     ship.addSquare(squares);
   }
@@ -54,6 +53,41 @@ const Gameboard = () => {
     opponent.hit(square);
   }
 
+  function getSurroundingSquares(square) {
+    const sq = Number(square);
+    const rightSquare = sq % 10 === 0 ? null : sq + 1;
+    const leftSquare = sq % 10 === 1 ? null : sq - 1;
+    const topSquare = sq - 10 < 1 ? null : sq - 10;
+    const bottomSquare = sq + 10 > 100 ? null : sq + 10;
+
+    return [rightSquare, leftSquare, topSquare, bottomSquare];
+  }
+
+  function placeShipRandomly(ship) {
+    const randomIndex = Math.floor(Math.random() * board.length + 1);
+    let squares = Array.from(
+      { length: ship.length },
+      (el, index) => randomIndex + index * 10
+    );
+
+    if (checkSquares(squares)) {
+      return placeShip(ship, squares);
+    }
+
+    squares = Array.from(
+      { length: ship.length },
+      (el, index) => randomIndex + index
+    );
+    const checkSpace =
+      randomIndex % 10 === 0 ? 0 : _rowLength - (randomIndex % 10) + 1;
+
+    if (checkSquares(squares) && checkSpace) {
+      return placeShip(ship, squares);
+    }
+
+    return false;
+  }
+
   return {
     initializeBoard,
     receiveAttack,
@@ -62,6 +96,8 @@ const Gameboard = () => {
     receiveAttack,
     getSquare,
     board,
+    getSurroundingSquares,
+    placeShipRandomly,
   };
 };
 

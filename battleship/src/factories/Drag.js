@@ -75,7 +75,6 @@ const Drag = (board, player) => {
       const shipDiv = document.querySelector(".ship-div");
       const ev = new Event("change");
       shipDiv.dispatchEvent(ev);
-      shipDiv.remove();
     });
   }
 

@@ -4,15 +4,14 @@ const Drag = require("./Drag");
 const parseString = require("../utilities/parseString");
 
 const DOM = () => {
-  const userBoard = Gameboard();
-  const user = Player("you");
-  const aiBoard = Gameboard();
-  const AI = Player("computer");
-  const drag = Drag(userBoard, user);
+  let userBoard = Gameboard();
+  let user = Player("you");
+  let aiBoard = Gameboard();
+  let AI = Player("computer");
+  let drag = Drag(userBoard, user);
+  let _gameOver = false;
 
   function initGame() {
-    header();
-    userBoard.initializeBoard();
     initBoard();
     initShips();
   }
@@ -25,6 +24,8 @@ const DOM = () => {
   }
 
   function initBoard() {
+    userBoard.initializeBoard();
+
     const board = document.createElement("section");
     board.classList.add("board");
 
@@ -83,6 +84,7 @@ const DOM = () => {
     shipDiv.addEventListener("change", (e) => {
       e.preventDefault();
       initAI();
+      shipDiv.remove();
     });
   }
 
@@ -95,15 +97,14 @@ const DOM = () => {
     enemyBoard.classList.add("enemy-board");
     document.querySelector(".board").append(enemyBoard);
 
+    console.log(aiBoard.board);
+
     aiBoard.board.forEach((num, index) => {
       const enemySquare = document.createElement("div");
       enemySquare.classList.add(index + 1, "square");
       enemyBoard.append(enemySquare);
       enemySquare.addEventListener("click", (e) => {
-        if (
-          Array.from(enemySquare.classList).includes("hit") ||
-          enemySquare.firstChild
-        ) {
+        if (enemySquare.firstChild) {
           return;
         }
 
@@ -121,7 +122,13 @@ const DOM = () => {
           e.target.append(piece);
         }
 
-        aiBoard.aiTurn(user, userBoard);
+        if (AI.ships.every((ship) => ship.sunk())) {
+          _gameOver = true;
+        }
+
+        _gameOver && initGameOver();
+
+        !_gameOver && aiBoard.aiTurn(user, userBoard);
       });
     });
 
@@ -157,11 +164,46 @@ const DOM = () => {
     // startGame();
   }
 
-  // function startGame() {
-  //   while (true) {}
-  // }
+  function initGameOver() {
+    // _gameOver = false;
+    let winner;
 
-  return { initGame };
+    if (user.ships.every((ship) => ship.sunk())) {
+      winner = AI.name;
+    } else {
+      winner = user.name;
+    }
+
+    const gameOverModal = document.createElement("section");
+    gameOverModal.classList.add("game-over");
+    gameOverModal.innerHTML = `
+      <div>
+        <p>
+          ${winner.toUpperCase()} won the game!
+        </p>
+        <button type="button" class="restart btn">
+          restart
+        </button>
+      </div>
+    `;
+
+    document.body.append(gameOverModal);
+
+    restartBtn = document.querySelector(".restart.btn");
+    restartBtn.addEventListener("click", (e) => {
+      const board = document.querySelector(".board");
+      _gameOver = false;
+      user.reset();
+      AI.reset();
+      gameOverModal.remove();
+      board.remove();
+      drag = null;
+      drag = Drag(userBoard, user);
+      initGame();
+    });
+  }
+
+  return { initGame, header };
 };
 
 module.exports = DOM;

@@ -15,7 +15,11 @@ const Player = (name, boolean) => {
 
   const ships = [carrier, battleship, cruiser, submarine, destroyer];
 
-  return { name, ships, getShip, AI };
+  function reset() {
+    ships.forEach((ship) => (ship.squares = []));
+  }
+
+  return { name, ships, getShip, AI, reset };
 };
 
 module.exports = Player;

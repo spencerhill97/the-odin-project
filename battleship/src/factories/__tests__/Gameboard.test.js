@@ -105,6 +105,22 @@ test("testing for a sunken ship to return true", () => {
 test("testing for a ship thats not sunk to return false", () => {
   expect(playerTwo.getShip("carrier").sunk()).toBe(false);
 });
+
+/*======================================== comment ======================================== */
+test("testing for ai to make ai logical choice and count hits", () => {
+  expect(
+    playerOne.getShip("carrier").squares.filter((square) => square.hit).length
+  ).toBe(5);
+});
+
+test("testing direction test for ai logical choice", () => {
+  const arr1 = [11, 21, 31, 41, 51, 61, 71, 81, 91];
+  const arr2 = [51, 52, 53, 54, 55, 56, 57, 58, 59];
+
+  expect(arr1.every((el, i) => el % 10 === arr1[0] % 10)).toBe(true);
+  expect(arr2.every((el, i) => el % 10 === arr2[0] % 10)).toBe(false);
+});
+
 /*======================================== comment ======================================== */
 test("checking for surrounding squares", () => {
   expect(fakeGameboard.getSurroundingSquares(45)).toContain(46);

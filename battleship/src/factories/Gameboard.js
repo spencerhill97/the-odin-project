@@ -1,11 +1,17 @@
 const Gameboard = () => {
   let board = [];
   const _rowLength = 10;
-  const _activeShip = false;
 
   function initializeBoard() {
+    board.length = 0;
     for (let i = 0; i < new Array(100).length; i++) {
       board.push({ square: i + 1, occupied: null });
+    }
+  }
+
+  function resetBoard() {
+    for (let i = 0; i < new Array(100).length; i++) {
+      board[i].occupied = null;
     }
   }
 
@@ -58,18 +64,9 @@ const Gameboard = () => {
     }
 
     const occupied = getSquare(square).occupied;
-    opponent.getShip(occupied).hit(square);
+    const ship = opponent.getShip(occupied);
+    ship.hit(square);
     getSquare(square).occupied = "hit";
-  }
-
-  function getSurroundingSquares(square) {
-    const sq = Number(square);
-    const rightSquare = sq % 10 === 0 ? null : sq + 1;
-    const leftSquare = sq % 10 === 1 ? null : sq - 1;
-    const topSquare = sq - 10 < 1 ? null : sq - 10;
-    const bottomSquare = sq + 10 > 100 ? null : sq + 10;
-
-    return [rightSquare, leftSquare, topSquare, bottomSquare];
   }
 
   function placeShipRandomly(ship) {
@@ -99,49 +96,85 @@ const Gameboard = () => {
     return false;
   }
 
+  function getSurroundingSquares(square) {
+    const sq = Number(square);
+    const rightSquare = sq % 10 === 0 ? null : sq + 1;
+    const leftSquare = sq % 10 === 1 ? null : sq - 1;
+    const topSquare = sq - 10 < 1 ? null : sq - 10;
+    const bottomSquare = sq + 10 > 100 ? null : sq + 10;
+
+    return [rightSquare, leftSquare, topSquare, bottomSquare];
+  }
+
+  // function aiLogicalChoice(square, ship, board) {
+  //   const hits = ship && ship.squares.filter((el) => el.hit);
+  //   const vertical =
+  //     ship && ship.squares.every((el, i) => el % 10 === ship.squares[0] % 10);
+
+  //   if (hits.length < 2) {
+  //     return getSurroundingSquares(square).filter((el) => el)[0];
+  //   }
+
+  //   let result;
+  //   while (vertical) {
+  //     if (
+  //       board.getSquare(_rowLength + square) !== "miss" ||
+  //       board.getSquare(_rowLength + square) !== "hit"
+  //     ) {
+  //       result = _rowLength + square;
+  //     } else if (
+  //       board.getSquare(_rowLength + square) !== "miss" ||
+  //       board.getSquare(_rowLength + square) !== "hit"
+  //     ) {
+  //       result = _rowLength - square;
+  //     } else {
+  //       result = ship.squares.filter()
+  //     }
+  //   }
+
+  //   while (!vertical) {
+  //     result = getSurroundingSquares(square)
+  //       .filter((el) => el)
+  //       .find(
+  //         (el) =>
+  //           board.getSquare(el).occupied !== "miss" ||
+  //           board.getSquare(el).occupied !== "hit"
+  //       );
+
+  //     break;
+  //   }
+  // }
+
   function aiTurn(player, playerBoard) {
-    console.clear();
     let openSquares = playerBoard.board.filter(
       (sq) => sq.occupied !== "miss" && sq.occupied !== "hit"
     );
     const randomNumber = Math.floor(Math.random() * openSquares.length);
-    const randomSquare = openSquares[randomNumber].square;
+
+    /*======================================== comment ======================================== */
+
+    const currentSquare = openSquares[randomNumber].square;
     const squareDiv = document.querySelectorAll(`.player-board > .square`)[
-      randomSquare - 1
+      currentSquare - 1
     ];
 
-    console.log(openSquares);
+    playerBoard.receiveAttack(currentSquare, player);
 
-    console.log(randomSquare);
-    console.log(squareDiv);
-
-    if (
-      playerBoard.getSquare(randomSquare).occupied === "miss" ||
-      playerBoard.getSquare(randomSquare).occupied === "hit"
-    ) {
-      console.log("ERROR!!!");
-      return;
-    }
-
-    playerBoard.receiveAttack(randomSquare, player);
-
-    if (playerBoard.getSquare(randomSquare).occupied === "miss") {
+    if (playerBoard.getSquare(currentSquare).occupied === "miss") {
       const piece = document.createElement("div");
       piece.classList.add("piece");
       squareDiv.append(piece);
-      console.log("miss");
-    } else if (playerBoard.getSquare(randomSquare).occupied === "hit") {
+      return;
+    } else if (playerBoard.getSquare(currentSquare).occupied === "hit") {
       const piece = document.createElement("div");
       piece.innerText = "X";
       piece.classList.add("hit");
       squareDiv.append(piece);
     }
 
-    console.log(
-      playerBoard.board.filter(
-        (sq) => sq.occupied !== "miss" && sq.occupied !== "hit"
-      )
-    );
+    if (player.ships.every((ship) => ship.sunk())) {
+      console.log("gameOver");
+    }
   }
 
   return {
@@ -155,6 +188,7 @@ const Gameboard = () => {
     getSurroundingSquares,
     placeShipRandomly,
     aiTurn,
+    resetBoard,
   };
 };
 

@@ -9,7 +9,6 @@ const DOM = () => {
   let aiBoard = Gameboard();
   let AI = Player("computer");
   let drag = Drag(userBoard, user);
-  let _gameOver = false;
 
   function initGame() {
     initBoard();
@@ -106,6 +105,8 @@ const DOM = () => {
       enemySquare.addEventListener("click", (e) => {
         if (enemySquare.firstChild) {
           return;
+        } else if (user.ships.every((ship) => ship.sunk())) {
+          return initGameOver();
         }
 
         const sq = parseString(e.target.classList.value);
@@ -123,12 +124,10 @@ const DOM = () => {
         }
 
         if (AI.ships.every((ship) => ship.sunk())) {
-          _gameOver = true;
+          return initGameOver();
         }
 
-        _gameOver && initGameOver();
-
-        !_gameOver && aiBoard.aiTurn(user, userBoard);
+        aiBoard.aiTurn(user, userBoard);
       });
     });
 
@@ -191,15 +190,7 @@ const DOM = () => {
 
     restartBtn = document.querySelector(".restart.btn");
     restartBtn.addEventListener("click", (e) => {
-      const board = document.querySelector(".board");
-      _gameOver = false;
-      user.reset();
-      AI.reset();
-      gameOverModal.remove();
-      board.remove();
-      drag = null;
-      drag = Drag(userBoard, user);
-      initGame();
+      window.location.reload();
     });
   }
 

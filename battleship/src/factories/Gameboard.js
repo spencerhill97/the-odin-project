@@ -1,6 +1,7 @@
 const Gameboard = () => {
   let board = [];
   const _rowLength = 10;
+  const _activeShip = false;
 
   function initializeBoard() {
     for (let i = 0; i < new Array(100).length; i++) {
@@ -47,7 +48,8 @@ const Gameboard = () => {
 
   function receiveAttack(square, opponent) {
     if (!getSquare(square).occupied) {
-      return (getSquare(square).occupied = "miss");
+      getSquare(square).occupied = "miss";
+      return;
     } else if (
       getSquare(square).occupied === "hit" ||
       getSquare(square).occupied === "miss"
@@ -97,6 +99,51 @@ const Gameboard = () => {
     return false;
   }
 
+  function aiTurn(player, playerBoard) {
+    console.clear();
+    let openSquares = playerBoard.board.filter(
+      (sq) => sq.occupied !== "miss" && sq.occupied !== "hit"
+    );
+    const randomNumber = Math.floor(Math.random() * openSquares.length);
+    const randomSquare = openSquares[randomNumber].square;
+    const squareDiv = document.querySelectorAll(`.player-board > .square`)[
+      randomSquare - 1
+    ];
+
+    console.log(openSquares);
+
+    console.log(randomSquare);
+    console.log(squareDiv);
+
+    if (
+      playerBoard.getSquare(randomSquare).occupied === "miss" ||
+      playerBoard.getSquare(randomSquare).occupied === "hit"
+    ) {
+      console.log("ERROR!!!");
+      return;
+    }
+
+    playerBoard.receiveAttack(randomSquare, player);
+
+    if (playerBoard.getSquare(randomSquare).occupied === "miss") {
+      const piece = document.createElement("div");
+      piece.classList.add("piece");
+      squareDiv.append(piece);
+      console.log("miss");
+    } else if (playerBoard.getSquare(randomSquare).occupied === "hit") {
+      const piece = document.createElement("div");
+      piece.innerText = "X";
+      piece.classList.add("hit");
+      squareDiv.append(piece);
+    }
+
+    console.log(
+      playerBoard.board.filter(
+        (sq) => sq.occupied !== "miss" && sq.occupied !== "hit"
+      )
+    );
+  }
+
   return {
     initializeBoard,
     receiveAttack,
@@ -107,6 +154,7 @@ const Gameboard = () => {
     board,
     getSurroundingSquares,
     placeShipRandomly,
+    aiTurn,
   };
 };
 

@@ -155,3 +155,5 @@ test("testing for randomly placed ships", () => {
     AI.getShip("battleship").squares.length === AI.getShip("battleship").length
   );
 });
+
+/*======================================== comment ======================================== */

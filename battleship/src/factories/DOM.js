@@ -9,7 +9,6 @@ const DOM = () => {
   const aiBoard = Gameboard();
   const AI = Player("computer");
   const drag = Drag(userBoard, user);
-  const players1sTurn = true;
 
   function initGame() {
     header();
@@ -98,12 +97,31 @@ const DOM = () => {
 
     aiBoard.board.forEach((num, index) => {
       const enemySquare = document.createElement("div");
-      enemySquare.classList.add("square", index + 1);
+      enemySquare.classList.add(index + 1, "square");
       enemyBoard.append(enemySquare);
       enemySquare.addEventListener("click", (e) => {
+        if (
+          Array.from(enemySquare.classList).includes("hit") ||
+          enemySquare.firstChild
+        ) {
+          return;
+        }
+
         const sq = parseString(e.target.classList.value);
         aiBoard.receiveAttack(sq, AI);
-        console.log(aiBoard.getSquare(sq));
+
+        if (aiBoard.getSquare(sq).occupied === "miss") {
+          const piece = document.createElement("div");
+          piece.classList.add("piece");
+          e.target.append(piece);
+        } else if (aiBoard.getSquare(sq).occupied === "hit") {
+          const piece = document.createElement("div");
+          piece.innerText = "X";
+          piece.classList.add("hit");
+          e.target.append(piece);
+        }
+
+        aiBoard.aiTurn(user, userBoard);
       });
     });
 

@@ -8,17 +8,25 @@ class PersonalDetails extends Component {
   }
 
   onChange() {
-    const firstName = document.querySelector(`input[name="name"]`).value;
+    const firstName = document.querySelector(`input[name="fname"]`).value;
+    const lastName = document.querySelector(`input[name="lname"]`).value;
     const email = document.querySelector(`input[name="email"]`).value;
     const phone = document.querySelector(`input[name="phone-number"]`).value;
+    const city = document.querySelector(`input[name="city"]`).value;
+    const state = document.querySelector(`input[name="state"]`).value;
+    const zipcode = document.querySelector(`input[name="zipcode"]`).value;
     const linkedin = document.querySelector(`input[name="linkedin"]`).value;
     const github = document.querySelector(`input[name="github"]`).value;
     const bio = document.querySelector(`textarea[name="bio"]`).value;
 
     this.props.addPersonal({
       firstName,
+      lastName,
       email,
       phone,
+      city,
+      state,
+      zipcode,
       linkedin,
       github,
       bio,
@@ -27,6 +35,7 @@ class PersonalDetails extends Component {
 
   render() {
     const { personal } = this.props;
+
     return (
       <div>
         <h3>personal details</h3>
@@ -50,7 +59,7 @@ class PersonalDetails extends Component {
               placeholder="Last name"
               pattern="^[a-zA-Z]+$"
               defaultValue={
-                personal && "firstName" in personal && personal.firstName
+                personal && "lastName" in personal && personal.lastName
               }
               required
             />
@@ -60,18 +69,23 @@ class PersonalDetails extends Component {
                 type="text"
                 name="city"
                 placeholder="City"
+                defaultValue={personal && "city" in personal && personal.city}
               />
               <input
                 className="percent-22"
                 type="text"
                 name="state"
                 placeholder="State"
+                defaultValue={personal && "state" in personal && personal.state}
               />
               <input
                 className="percent-22"
                 type="text"
                 name="zipcode"
                 placeholder="Zipcode"
+                defaultValue={
+                  personal && "zipcode" in personal && personal.zipcode
+                }
               />
             </div>
             <input

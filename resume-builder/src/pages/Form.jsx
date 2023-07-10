@@ -9,14 +9,35 @@ class Form extends Component {
   }
 
   render() {
-    const { personal, addPersonal } = this.props;
+    const {
+      personal,
+      addPersonal,
+      education,
+      deleteEducation,
+      addEducation,
+      editEducation,
+      experience,
+      addExperience,
+      deleteExperience,
+      editExperience,
+    } = this.props;
 
     return (
       <section className="wrapper">
         <article className="form">
           <PersonalDetails personal={personal} addPersonal={addPersonal} />
-          <Education />
-          <Experience />
+          <Education
+            addEducation={addEducation}
+            education={education}
+            deleteEducation={deleteEducation}
+            editEducation={editEducation}
+          />
+          <Experience
+            addExperience={addExperience}
+            experience={experience}
+            deleteExperience={deleteExperience}
+            editExperience={editExperience}
+          />
         </article>
       </section>
     );

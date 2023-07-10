@@ -1,35 +1,31 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import CancelBtn from "../ui/CancelBtn";
 import SubmitBtn from "../ui/SubmitBtn";
 
-class AddEducation extends Component {
+class AddExperience extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      endDate: true,
-    };
-
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.toggleEndDate = this.toggleEndDate.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const name = document.querySelector(".education.name");
-    const degree = document.querySelector(".education.degree");
-    const city = document.querySelector(".education.city");
-    const state = document.querySelector(".education.state");
-    const zipcode = document.querySelector(".education.zipcode");
-    const startMonth = document.querySelector(".education.start-month");
-    const startYear = document.querySelector(".education.start-year");
-    const endMonth = document.querySelector(".education.end-month");
-    const endYear = document.querySelector(".education.end-year");
-    const present = document.querySelector(".education.present");
+
+    const company = document.querySelector(".experience.company");
+    const position = document.querySelector(".experience.position");
+    const city = document.querySelector(".experience.city");
+    const state = document.querySelector(".experience.state");
+    const zipcode = document.querySelector(".experience.zipcode");
+    const startMonth = document.querySelector(".experience.start-month");
+    const startYear = document.querySelector(".experience.start-year");
+    const endMonth = document.querySelector(".experience.end-month");
+    const endYear = document.querySelector(".experience.end-year");
+    const present = document.querySelector(".experience.present");
 
     const result = {
-      name: name.value,
-      degree: degree.value,
+      company: company.value,
+      position: position.value,
       city:
         city.value.split("")[0].toUpperCase() +
         city.value.split("").slice(1).join(""),
@@ -43,16 +39,16 @@ class AddEducation extends Component {
     };
 
     if (!this.props.params) {
-      this.props.addEducation(result);
+      this.props.addExperience(result);
     } else {
-      this.props.editEducation(this.props.params, result);
+      this.props.editExperience(this.props.params, result);
     }
 
-    name.value = "";
+    company.value = "";
     city.value = "";
     state.value = "";
     zipcode.value = "";
-    degree.value = "";
+    position.value = "";
     startMonth.value = "";
     startYear.value = "";
     endMonth.value = "";
@@ -63,59 +59,52 @@ class AddEducation extends Component {
     this.props.handleToggle();
   }
 
-  toggleEndDate(e) {
-    const result = e.target.checked === true ? false : true;
-    this.setState({
-      endDate: result,
-    });
-  }
-
   render() {
     const { handleToggle, params } = this.props;
     return (
       <form onSubmit={this.handleSubmit}>
         <fieldset>
           <legend>
-            {(params && "edit education:") || "add new education:"}
+            {(params && "edit experience:") || "add new experience:"}
           </legend>
           <input
-            defaultValue={params && params.name}
-            className="percent-45 education name"
+            defaultValue={params && params.company}
+            className="percent-45 experience company"
             type="text"
-            name="education-name"
-            placeholder="School name"
+            name="experience-name"
+            placeholder="Company name"
             required
           />
           <input
-            defaultValue={params && params.degree}
-            className="percent-45 education degree"
+            defaultValue={params && params.position}
+            className="percent-45 experience position"
             type="text"
-            name="education-degree"
-            placeholder="Title of study"
+            name="experience-degree"
+            placeholder="Position title"
             required
           />
-          <div className="location percent-45">
+          <div className="location">
             <input
               defaultValue={params && params.city}
-              className="percent-45 education city"
+              className="percent-45 experience city"
               type="text"
-              name="education-city"
+              name="experience-city"
               placeholder="City"
               pattern="^[a-zA-Z]+$"
             />
             <input
               defaultValue={params && params.state}
-              className="percent-22 education state"
+              className="percent-22 experience state"
               type="text"
-              name="education-state"
+              name="experience-state"
               placeholder="State"
               pattern="^[a-zA-Z]{2}$"
             />
             <input
               defaultValue={params && params.zipcode}
-              className="percent-22 education zipcode"
+              className="percent-22 experience zipcode"
               type="text"
-              name="education-zipcode"
+              name="experience-zipcode"
               placeholder="Zipcode"
               pattern="^[0-9]{5}$"
             />
@@ -125,18 +114,18 @@ class AddEducation extends Component {
               <h4>start date:</h4>
               <input
                 defaultValue={params && params.startMonth}
-                className="education start-month"
+                className="experience start-month"
                 type="text"
-                name="education-start-month"
+                name="experience-start-month"
                 placeholder="Month"
                 pattern="^(0?[1-9]|1{1}[0-2]{1})$"
                 required
               />
               <input
                 defaultValue={params && params.startYear}
-                className="education start-year"
+                className="experience start-year"
                 type="text"
-                name="education-start-year"
+                name="experience-start-year"
                 placeholder="Year"
                 pattern="^[0-9]{4}$"
                 required
@@ -146,30 +135,27 @@ class AddEducation extends Component {
               <h4>end date:</h4>
               <input
                 defaultValue={params && params.endMonth}
-                className="education end-month"
+                className="experience end-month"
                 type="text"
-                name="education-end-month"
+                name="experience-end-month"
                 placeholder="Month"
                 pattern="^(0?[1-9]|1{1}[0-2]{1})$"
-                disabled={this.state.endDate ? false : true}
               />
               <input
                 defaultValue={params && params.endYear}
-                className="education end-year"
+                className="experience end-year"
                 type="text"
-                name="education-end-year"
+                name="experience-end-year"
                 placeholder="Year"
                 pattern="^[0-9]{4}$"
-                disabled={this.state.endDate ? false : true}
               />
               <p>or</p>
               <label htmlFor="present">Present: </label>
               <input
                 id="present"
                 type="checkbox"
-                name="education-present"
-                className="education present"
-                onChange={this.toggleEndDate}
+                name="experience-present"
+                className="experience present"
                 defaultChecked={params && params.present ? true : false}
               />
             </div>
@@ -184,4 +170,4 @@ class AddEducation extends Component {
   }
 }
 
-export default AddEducation;
+export default AddExperience;

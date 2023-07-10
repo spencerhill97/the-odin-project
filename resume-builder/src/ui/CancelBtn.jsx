@@ -6,10 +6,10 @@ class CancelBtn extends Component {
   }
 
   render() {
-    const { toggleForm } = this.props;
+    const { handleToggle } = this.props;
 
     return (
-      <button onClick={toggleForm} type="button" className="cancel btn">
+      <button onClick={handleToggle} type="button" className="cancel btn">
         cancel
       </button>
     );

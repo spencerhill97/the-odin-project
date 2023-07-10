@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { MdAdd } from "react-icons/md";
 
 class AddBtn extends Component {
   constructor(props) {
@@ -7,11 +6,11 @@ class AddBtn extends Component {
   }
 
   render() {
-    const { toggleForm } = this.props;
+    const { handleToggle } = this.props;
 
     return (
-      <button onClick={toggleForm} type="button" className="add btn">
-        add <MdAdd />
+      <button onClick={handleToggle} type="button" className="add btn">
+        add
       </button>
     );
   }

@@ -19,6 +19,7 @@
 }
 
 .btn {
+  vertical-align: middle;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,6 +34,9 @@
   cursor: pointer;
   background-color: var(--accent-300);
   color: var(--accent-900);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 100px;
 }
 
 .btn:active {
@@ -41,6 +45,9 @@
 
 body {
   background-color: var(--gray-100);
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
 }
 
 .header {
@@ -69,18 +76,6 @@ h1 {
   gap: 24px;
 }
 
-.btn.preview,
-.btn.print {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  width: 80px;
-}
-
-.btn.preview:active,
-.btn.print:active {
-  box-shadow: none;
-}
-
 .wrapper {
   width: 100%;
   padding-top: 36px;
@@ -104,7 +99,7 @@ h1 {
 .form h3 {
   font-size: 1.25rem;
   font-family: "Open Sans";
-  font-weight: 500;
+  font-weight: 700;
   text-transform: capitalize;
   color: var(--gray-900);
   border-bottom: 2.5px solid var(--primary);
@@ -117,6 +112,18 @@ fieldset {
   flex-wrap: wrap;
   justify-content: space-between;
   row-gap: 16px;
+}
+
+legend {
+  font-weight: 500;
+  color: var(--gray-900);
+  border-bottom: 2.5px solid var(--primary);
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+legend::first-letter {
+  text-transform: uppercase;
 }
 
 input,
@@ -165,44 +172,104 @@ textarea:focus {
 .end-date {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   column-gap: 12px;
   row-gap: 8px;
 }
 
 .start-date input,
-.end-date input {
+.end-date input:not(.end-date input[type="checkbox"]) {
   width: 50px;
+}
+
+input[type="checkbox"] {
+  width: 17.5px;
+  height: 17.5px;
+  cursor: pointer;
 }
 
 h4 {
   width: 100%;
   font-family: "Open Sans";
-  font-weight: 400;
+  font-weight: 500;
+  color: var(--gray-900);
   text-transform: capitalize;
+}
+
+label {
+  font-weight: 500;
+}
+
+.end-date p {
+  font-weight: 300;
+  color: var(--gray-900);
+  margin-right: 4px;
+  margin-left: 4px;
 }
 
 .add,
 .cancel,
 .submit {
   width: 100px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+}
+
+i {
+  font-weight: 700;
+  vertical-align: middle;
 }
 
 .submit,
 .cancel {
-  margin-top: 20px;
+  margin-top: 28px;
 }
 
-.cancel.btn {
+.cancel.btn,
+.delete.btn {
   background-color: #fecaca;
   color: #991b1b;
+}
+
+.submitted-display {
+  border: 1px solid var(--gray-300);
+  background-color: var(--gray-100);
+  border-radius: 4px;
+  width: max(300px, 55%);
+  padding: 8px;
+  margin-bottom: 16px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.submitted-display > .btn-container {
+  gap: 12px;
+}
+
+.submitted-display:last-of-type {
+  margin-bottom: 30px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info p {
+  font-weight: 300;
+}
+
+.edit,
+.delete {
+  width: 25px;
+  height: 25px;
 }
 
 article.preview {
   height: 100%;
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   aspect-ratio: 8 / 11;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   background-color: white;

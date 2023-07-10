@@ -8,7 +8,21 @@ class App extends Component {
     super(props);
 
     this.state = {
-      personal: undefined,
+      personal: {
+        firstName: "Spencer",
+        lastName: "Hill",
+        jobTitle: "Web Developer",
+        avatar:
+          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80",
+        email: "spencerahill97@gmail.com",
+        phone: "331-223-7177",
+        city: "Chicago",
+        state: "IL",
+        zipcode: "60544",
+        linkedin: "https://www.linkedin.com/in/-spencer-hill-/",
+        github: "https://github.com/spencerhill97",
+        bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, hic numquam! Rem perferendis error necessitatibus. Excepturi numquam minus in quidem temporibus, quam illo ut amet, mollitia quisquam labore quos repellat.Cum nostrum, deleniti tempore sunt dolore numquam, repellat dolorem fugit necessitatibus aliquam tenetur omnis.",
+      },
       education: [
         {
           degree: "general studies",
@@ -135,7 +149,13 @@ class App extends Component {
             editExperience={this.editExperience}
           />
         )}
-        {this.state.preview && <Preview />}
+        {this.state.preview && (
+          <Preview
+            personal={this.state.personal}
+            education={this.state.education}
+            experience={this.state.experience}
+          />
+        )}
       </>
     );
   }

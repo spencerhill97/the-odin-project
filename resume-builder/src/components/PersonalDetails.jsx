@@ -10,6 +10,8 @@ class PersonalDetails extends Component {
   onChange() {
     const firstName = document.querySelector(`input[name="fname"]`).value;
     const lastName = document.querySelector(`input[name="lname"]`).value;
+    const jobTitle = document.querySelector(`input[name="job-title"]`).value;
+    const avatar = document.querySelector(`input[name="avatar"]`).value;
     const email = document.querySelector(`input[name="email"]`).value;
     const phone = document.querySelector(`input[name="phone-number"]`).value;
     const city = document.querySelector(`input[name="city"]`).value;
@@ -22,6 +24,8 @@ class PersonalDetails extends Component {
     this.props.addPersonal({
       firstName,
       lastName,
+      jobTitle,
+      avatar,
       email,
       phone,
       city,
@@ -61,6 +65,28 @@ class PersonalDetails extends Component {
               defaultValue={
                 personal && "lastName" in personal && personal.lastName
               }
+              required
+            />
+            <input
+              className="percent-45"
+              type="text"
+              name="job-title"
+              placeholder="Occupation"
+              defaultValue={
+                personal && "jobTitle" in personal && personal.jobTitle
+              }
+              required
+            />
+            <input
+              id="avatar"
+              className="percent-45 avatar"
+              type="file"
+              name="avatar"
+              accept="image/*"
+              placeholder="Image"
+              // defaultValue={
+              // personal && "lastName" in personal && personal.avatar
+              // }
               required
             />
             <div className="location percent-45">

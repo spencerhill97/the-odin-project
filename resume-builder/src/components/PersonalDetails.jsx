@@ -11,7 +11,6 @@ class PersonalDetails extends Component {
     const firstName = document.querySelector(`input[name="fname"]`).value;
     const lastName = document.querySelector(`input[name="lname"]`).value;
     const jobTitle = document.querySelector(`input[name="job-title"]`).value;
-    const avatar = document.querySelector(`input[name="avatar"]`).value;
     const email = document.querySelector(`input[name="email"]`).value;
     const phone = document.querySelector(`input[name="phone-number"]`).value;
     const city = document.querySelector(`input[name="city"]`).value;
@@ -21,11 +20,18 @@ class PersonalDetails extends Component {
     const github = document.querySelector(`input[name="github"]`).value;
     const bio = document.querySelector(`textarea[name="bio"]`).value;
 
+    let avatar = document.querySelector(`input[name="avatar"]`).files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      avatar = e.target.result;
+    };
+    reader.readAsDataURL(avatar);
+
     this.props.addPersonal({
       firstName,
       lastName,
       jobTitle,
-      avatar,
+      avatar: reader,
       email,
       phone,
       city,

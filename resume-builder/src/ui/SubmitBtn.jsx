@@ -9,7 +9,7 @@ class SubmitBtn extends Component {
     const { params } = this.props;
     return (
       <button type="submit" className="submit btn">
-        {params ? "edit" : "submit"}
+        {params ? "confirm" : "submit"}
       </button>
     );
   }
